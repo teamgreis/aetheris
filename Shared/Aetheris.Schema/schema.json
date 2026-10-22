@@ -1,0 +1,292 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aetheris.dev/schema/profile-v1.json",
+  "title": "Aetheris Profile Schema",
+  "description": "Shared data format for Aetheris Studio (Windows) and Aetheris Mobile (iOS). Versioned, validated, migratable.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "profile", "measurements", "findings", "settings"],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version of this schema. Must match exactly for compatibility."
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "createdAt", "updatedAt"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Stable unique identifier for this profile. Generated once on creation."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Human-readable profile name chosen by the user."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp when profile was first created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of last modification."
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 2000,
+          "description": "Optional free-text notes by the user."
+        }
+      }
+    },
+    "measurements": {
+      "type": "array",
+      "description": "Documented tremor measurements. Each entry is a single measurement session/observation.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "bodyRegion", "tremorType", "measuredAt"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for this measurement entry."
+          },
+          "bodyRegion": {
+            "type": "string",
+            "enum": ["hand", "arm", "finger", "leg", "foot", "head", "voice", "trunk", "other"],
+            "description": "Anatomical region where tremor was measured/observed."
+          },
+          "tremorType": {
+            "type": "string",
+            "enum": ["resting", "action", "postural", "kinetic", "intention", "task-specific", "orthostatic", "user_defined", "unknown"],
+            "description": "Clinical tremor classification. 'unknown' when not determined; 'user_defined' for custom descriptions in findings."
+          },
+          "frequencyHz": {
+            "type": ["number", "null"],
+            "minimum": 0.5,
+            "maximum": 30,
+            "description": "Dominant tremor frequency in Hertz. Null if not measured/unknown."
+          },
+          "amplitude": {
+            "type": ["string", "null"],
+            "enum": ["fine", "medium", "coarse", null],
+            "description": "Clinical amplitude classification. Null if not assessed."
+          },
+          "severity": {
+            "type": ["integer", "null"],
+            "minimum": 0,
+            "maximum": 4,
+            "description": "Clinical severity scale (0=none, 1=mild, 2=moderate, 3=severe, 4=very severe). Null if not rated."
+          },
+          "measuredAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 timestamp when this measurement was taken."
+          },
+          "conditions": {
+            "type": ["string", "null"],
+            "maxLength": 500,
+            "description": "Context: medication state, posture, activity, time since last dose, etc. Null if not documented."
+          },
+          "durationSeconds": {
+            "type": ["integer", "null"],
+            "minimum": 1,
+            "maximum": 3600,
+            "description": "Duration of measurement window in seconds. Null if not recorded."
+          },
+          "deviceInfo": {
+            "type": ["object", "null"],
+            "additionalProperties": false,
+            "properties": {
+              "deviceType": { "type": "string", "enum": ["accelerometer", "gyroscope", "smartphone", "wearable", "clinical", "manual", "other"] },
+              "deviceName": { "type": "string", "maxLength": 100 },
+              "samplingRateHz": { "type": ["integer", "null"], "minimum": 10, "maximum": 1000 }
+            },
+            "description": "Optional metadata about measurement device/method."
+          }
+        }
+      },
+      "minItems": 0
+    },
+    "findings": {
+      "type": "array",
+      "description": "User-entered observations, symptoms, and qualitative notes. Free-form but structured.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "category", "description", "recordedAt"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for this finding."
+          },
+          "category": {
+            "type": "string",
+            "enum": ["symptom", "trigger", "relief", "activity_impact", "medication_effect", "custom", "unknown"],
+            "description": "Category of the observation."
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "description": "Free-text description of the observation."
+          },
+          "bodyRegion": {
+            "type": ["string", "null"],
+            "enum": ["hand", "arm", "finger", "leg", "foot", "head", "voice", "trunk", "other", null],
+            "description": "Related body region if applicable."
+          },
+          "severity": {
+            "type": ["integer", "null"],
+            "minimum": 0,
+            "maximum": 10,
+            "description": "Subjective severity 0-10. Null if not rated."
+          },
+          "recordedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When this observation was recorded."
+          },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string", "maxLength": 50 },
+            "maxItems": 10,
+            "description": "Optional user-defined tags for filtering."
+          }
+        }
+      }
+    },
+    "settings": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Individual assistive configuration parameters for Aetheris Mobile. Extensible per feature.",
+      "required": ["version"],
+      "properties": {
+        "version": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Settings schema version for migration within a profile schema version."
+        },
+        "touchAssist": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "enabled": { "type": "boolean", "default": false },
+            "holdDurationMs": { "type": ["integer", "null"], "minimum": 50, "maximum": 3000, "description": "Minimum hold duration for touch registration. Null = system default." },
+            "ignoreRepeatedTouchesMs": { "type": ["integer", "null"], "minimum": 0, "maximum": 2000, "description": "Ignore repeated touches within this window. Null = system default." },
+            "tapAssistRadius": { "type": ["number", "null"], "minimum": 0, "maximum": 50, "description": "Touch target expansion radius in points. Null = system default." },
+            "stabilizationEnabled": { "type": "boolean", "default": false },
+            "stabilizationSmoothing": { "type": ["number", "null"], "minimum": 0.0, "maximum": 1.0, "description": "Smoothing factor 0-1. Null = adaptive." }
+          },
+          "description": "Touch accommodation settings (iOS AssistiveTouch compatible parameters)."
+        },
+        "motionAssist": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "enabled": { "type": "boolean", "default": false },
+            "reduceMotion": { "type": "boolean", "default": true },
+            "autoRotateDisabled": { "type": "boolean", "default": false },
+            "shakeToUndoDisabled": { "type": "boolean", "default": true }
+          },
+          "description": "Motion sensitivity reductions."
+        },
+        "voiceAssist": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "enabled": { "type": "boolean", "default": false },
+            "voiceControlEnabled": { "type": "boolean", "default": false },
+            "dictationEnabled": { "type": "boolean", "default": false }
+          },
+          "description": "Voice control and dictation preferences."
+        },
+        "displayAssist": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "enabled": { "type": "boolean", "default": false },
+            "largerText": { "type": "boolean", "default": false },
+            "boldText": { "type": "boolean", "default": false },
+            "increaseContrast": { "type": "boolean", "default": false },
+            "reduceTransparency": { "type": "boolean", "default": false },
+            "reduceWhitePoint": { "type": "boolean", "default": false }
+          },
+          "description": "Display accommodation settings."
+        },
+        "custom": {
+          "type": "object",
+          "additionalProperties": { "type": ["string", "number", "boolean", "null"] },
+          "description": "Extensible key-value store for future/unforeseen settings. Values must be JSON primitives."
+        }
+      }
+    },
+    "transfer": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Metadata about the QR transfer itself. Added by Studio on export, validated by Mobile on import.",
+      "required": ["exportedAt", "exportedBy", "integrity"],
+      "properties": {
+        "exportedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When this profile was exported to QR."
+        },
+        "exportedBy": {
+          "type": "string",
+          "enum": ["Aetheris.Studio"],
+          "description": "Application that created the export."
+        },
+        "exportVersion": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Version of the export format (may differ from schemaVersion)."
+        },
+        "integrity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["algorithm", "hash"],
+          "properties": {
+            "algorithm": {
+              "type": "string",
+              "enum": ["SHA-256"],
+              "description": "Hash algorithm used for integrity verification."
+            },
+            "hash": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$",
+              "description": "Hex-encoded SHA-256 of the canonical JSON (excluding this transfer object)."
+            }
+          }
+        },
+        "signature": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "algorithm": { "type": "string", "enum": ["Ed25519"] },
+            "publicKey": { "type": "string", "pattern": "^[A-Za-z0-9+/]{43}=$", "description": "Base64-encoded Ed25519 public key." },
+            "signature": { "type": "string", "pattern": "^[A-Za-z0-9+/]{86}=$", "description": "Base64-encoded Ed25519 signature over the integrity hash." }
+          },
+          "description": "Optional digital signature for authenticity verification. Null if not signed."
+        },
+        "encrypted": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the profile payload is encrypted (AES-256-GCM). If true, 'payload' field contains ciphertext."
+        },
+        "payload": {
+          "type": ["string", "null"],
+          "description": "If encrypted=true: base64-encoded ciphertext (nonce||ciphertext||tag). If encrypted=false: null, profile is in root object."
+        }
+      }
+    }
+  }
+}

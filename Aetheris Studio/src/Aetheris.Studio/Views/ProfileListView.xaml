@@ -1,0 +1,70 @@
+<UserControl
+    x:Class="Aetheris.Studio.Views.ProfileListView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Aetheris.Studio.Core.ViewModels"
+    mc:Ignorable="d"
+    d:DesignWidth="1000"
+    d:DesignHeight="700"
+    x:DataType="vm:ProfileListViewModel">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="12" Margin="0,0,0,24">
+            <TextBlock Text="Profile" Style="{StaticResource HeadingText}" VerticalAlignment="Center" />
+            <Button Content="Neues Profil" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding NewProfileCommand}" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <!-- Profile List -->
+        <ListView Grid.Row="1" ItemsSource="{Binding Profiles}" SelectedItem="{Binding SelectedProfile, Mode=TwoWay}" SelectionMode="Single" IsItemClickEnabled="True">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="vm:ProfileSummary">
+                    <Grid Padding="16" ColumnSpacing="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <FontIcon Grid.Column="0" Glyph="&#xE8FA;" FontSize="24" VerticalAlignment="Center" Foreground="{ThemeResource PrimaryBrush}" />
+
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
+                            <TextBlock Text="{Binding Name}" Style="{StaticResource TitleText}" />
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <TextBlock Text="{Binding UpdatedAt, StringFormat='Zuletzt: {0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" />
+                                <TextBlock Text="{Binding MeasurementCount, StringFormat='{0} Messungen'}" Style="{StaticResource SecondaryText}" />
+                                <TextBlock Text="{Binding FindingCount, StringFormat='{0} Einträge'}" Style="{StaticResource SecondaryText}" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <Button Grid.Column="2" Content="Öffnen" Style="{StaticResource AccentButtonStyle}" Command="{Binding DataContext.OpenProfileCommand, RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}" VerticalAlignment="Center" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="Margin" Value="0,4" />
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+
+        <!-- Empty State -->
+        <Grid Grid.Row="1" Visibility="{Binding Profiles.Count, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=inverse}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="16">
+                <FontIcon Glyph="&#xE8FA;" FontSize="64" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                <TextBlock Text="Keine Profile vorhanden" Style="{StaticResource TitleText}" HorizontalAlignment="Center" />
+                <TextBlock Text="Erstelle dein erstes Profil, um zu beginnen" Style="{StaticResource SecondaryText}" HorizontalAlignment="Center" />
+                <Button Content="Profil erstellen" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding NewProfileCommand}" MinWidth="200" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

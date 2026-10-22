@@ -1,0 +1,78 @@
+name: Build Windows (WinUI 3)
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'Aetheris Studio/**'
+      - 'Shared/Aetheris.Schema/**'
+      - 'Aetheris.sln'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'Aetheris Studio/**'
+      - 'Shared/Aetheris.Schema/**'
+      - 'Aetheris.sln'
+
+env:
+  SOLUTION_FILE: Aetheris.sln
+  CONFIGURATION: Release
+  PLATFORM: x64
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+          cache: true
+
+      - name: Install Windows App SDK workload
+        run: dotnet workload install wasm-tools 2>$null || true
+
+      - name: Restore dependencies
+        run: dotnet restore ${{ env.SOLUTION_FILE }}
+
+      - name: Build solution
+        run: dotnet build ${{ env.SOLUTION_FILE }} --configuration ${{ env.CONFIGURATION }} --no-restore -p:Platform=${{ env.PLATFORM }}
+
+      - name: Run tests
+        run: dotnet test ${{ env.SOLUTION_FILE }} --configuration ${{ env.CONFIGURATION }} --no-build -p:Platform=${{ env.PLATFORM }} --logger "trx;LogFileName=test-results.trx"
+
+      - name: Publish WinUI 3 app (MSIX)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          dotnet publish Aetheris Studio/src/Aetheris.Studio/Aetheris.Studio.csproj `
+            --configuration ${{ env.CONFIGURATION }} `
+            --platform ${{ env.PLATFORM }} `
+            --runtime win10-x64 `
+            --self-contained true `
+            -p:PublishProfile=win10-${{ env.PLATFORM }}.pubxml `
+            -p:AppxPackageDir="$(pwd)/artifacts/" `
+            -p:GenerateAppxPackageOnBuild=true `
+            -p:AppxBundle=Never `
+            -p:UapAppxPackageBuildMode=CI `
+            -p:AppxPackageSigningEnabled=false
+
+      - name: Upload build artifacts
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: aetheris-studio-msix
+          path: artifacts/**/*.msix
+          retention-days: 30
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-windows
+          path: '**/test-results.trx'
+          retention-days: 7

@@ -1,0 +1,73 @@
+name: Validate Schema & Publish Packages
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'Shared/Aetheris.Schema/**'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'Shared/Aetheris.Schema/**'
+
+jobs:
+  validate-schema:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Validate JSON Schema
+        run: |
+          dotnet build Shared/Aetheris.Schema/Aetheris.Schema.csproj
+          dotnet test Shared/Aetheris.Schema.Tests/Aetheris.Schema.Tests.csproj --no-build
+
+      - name: Validate JSON schema syntax
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const schema = JSON.parse(fs.readFileSync('Shared/Aetheris.Schema/schema.json', 'utf8'));
+            // Basic validation
+            if (!schema.$schema || !schema.properties) {
+              core.setFailed('Invalid JSON Schema structure');
+            }
+            console.log('JSON Schema validation passed');
+
+  publish-nuget:
+    needs: validate-schema
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Pack NuGet package
+        run: dotnet pack Shared/Aetheris.Schema/Aetheris.Schema.csproj -c Release -o ./nupkg
+
+      - name: Publish to NuGet
+        run: dotnet nuget push ./nupkg/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+
+  publish-swift-package:
+    needs: validate-schema
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate Swift Package
+        run: |
+          # Swift package is just the schema.json + generated models
+          # Validation happens in iOS build
+          echo "Swift package validation placeholder"

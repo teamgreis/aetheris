@@ -1,0 +1,58 @@
+# Build outputs
+**/bin/
+**/obj/
+**/artifacts/
+**/build/
+
+# IDE
+.vs/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# User-specific
+*.user
+*.suo
+*.userprefs
+
+# NuGet
+packages/
+*.nupkg
+*.snupkg
+
+# MSIX
+*.msix
+*.appx
+*.appxbundle
+
+# iOS/macOS
+*.xcworkspace/
+*.xcodeproj/
+DerivedData/
+*.pem
+*.mobileprovision
+
+# Secrets
+*.pfx
+*.p12
+*.cer
+secrets.json
+local.settings.json
+
+# Logs
+*.log
+*.trx
+
+# Test results
+TestResults/
+
+# Temporary
+*.tmp
+*.temp
+
+# OS
+Thumbs.db
+ehthumbs.db
+Desktop.ini

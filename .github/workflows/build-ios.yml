@@ -1,0 +1,82 @@
+name: Build iOS (SwiftUI)
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'Aetheris Mobile/**'
+      - 'Shared/Aetheris.Schema/**'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'Aetheris Mobile/**'
+      - 'Shared/Aetheris.Schema/**'
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '15.4'
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_15.4.app
+
+      - name: Install Swift dependencies
+        run: |
+          cd Aetheris Mobile/AetherisMobile
+          # Swift Package Manager will resolve automatically
+
+      - name: Build iOS app
+        run: |
+          xcodebuild build \
+            -project AetherisMobile.xcodeproj \
+            -scheme AetherisMobile \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -configuration Release \
+            CODE_SIGNING_ALLOWED=NO \
+            | xcpretty
+
+      - name: Run tests
+        run: |
+          xcodebuild test \
+            -project AetherisMobile.xcodeproj \
+            -scheme AetherisMobile \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -configuration Release \
+            CODE_SIGNING_ALLOWED=NO \
+            | xcpretty
+
+      - name: Build for device (archive)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          xcodebuild archive \
+            -project AetherisMobile.xcodeproj \
+            -scheme AetherisMobile \
+            -archivePath $PWD/build/AetherisMobile.xcarchive \
+            -configuration Release \
+            DEVELOPMENT_TEAM="${{ secrets.APPLE_TEAM_ID }}" \
+            CODE_SIGN_STYLE=Automatic
+
+      - name: Export IPA
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath $PWD/build/AetherisMobile.xcarchive \
+            -exportPath $PWD/build/ipa \
+            -exportOptionsPlist ExportOptions.plist
+
+      - name: Upload IPA
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: aetheris-mobile-ipa
+          path: build/ipa/*.ipa
+          retention-days: 30
