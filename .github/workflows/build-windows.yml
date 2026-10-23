@@ -7,12 +7,14 @@ on:
       - 'Aetheris Studio/**'
       - 'Shared/Aetheris.Schema/**'
       - 'Aetheris.sln'
+      - '.github/workflows/build-windows.yml'
   pull_request:
     branches: [main, develop]
     paths:
       - 'Aetheris Studio/**'
       - 'Shared/Aetheris.Schema/**'
       - 'Aetheris.sln'
+  workflow_dispatch:
 
 env:
   SOLUTION_FILE: Aetheris.sln
