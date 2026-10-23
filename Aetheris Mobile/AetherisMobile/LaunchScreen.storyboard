@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOSCocoaTouch" propertyAccessControl="none" useAutolayout="yes" launchScreen="yes" colorMatched="yes">
+<device id="retina6_1" orientation="portrait" appearance="light"/>
+<dependencies>
+<deployment identifier="iOS"/>
+<plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+<capability name="Safe area layout guides" minToolsVersion="9.0"/>
+<capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+</dependencies>
+<scenes>
+<scene sceneID="EHf-IW-A2E">
+<objects>
+<viewController id="BYZ-38-t0r" customClass="LaunchScreenViewController" customModule="AetherisMobile" customModuleProvider="target" sceneMemberID="viewController">
+<view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+<rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+<autoresizingMask key="autoresizingMask" widthSizable="yes" heightSizable="yes"/>
+<subviews>
+<view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="no" id="Ks4-3f-VvM">
+<rect key="frame" x="126" y="371" width="141" height="141"/>
+<constraints>
+<constraint firstAttribute="width" constant="141" id="W0U-mv-S5I"/>
+<constraint firstAttribute="height" constant="141" id="rH1-r1-8T1"/>
+</constraints>
+</view>
+<label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Aetheris" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="no" id="Qj8-3y-2Z3">
+<rect key="frame" x="116" y="524" width="161" height="41"/>
+<fontDescription key="fontDescription" type="system" pointSize="34" weight="medium"/>
+<color key="textColor" systemColor="labelColor"/>
+<nil key="highlightedColor"/>
+</label>
+</subviews>
+<color key="backgroundColor" systemColor="systemBackgroundColor"/>
+<constraints>
+<constraint firstItem="Ks4-3f-VvM" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="OZM-vD-5Fh"/>
+<constraint firstItem="Qj8-3y-2Z3" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Vp1-lK-m9U"/>
+<constraint firstItem="Qj8-3y-2Z3" firstAttribute="top" secondItem="Ks4-3f-VvM" secondAttribute="bottom" constant="12" id="aG0-Wp-8T4"/>
+<constraint firstItem="Ks4-3f-VvM" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" constant="-60" id="hY7-Qx-9W2"/>
+</constraints>
+<viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+</view>
+</viewController>
+<placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+</objects>
+</scene>
+</scenes>
+<resources>
+<image name="LaunchIcon" width="141" height="141"/>
+</resources>
+</document>
