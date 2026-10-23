@@ -52,7 +52,7 @@ jobs:
       - name: Run Schema tests
         run: |
           cd ${{ github.workspace }}
-          dotnet test Shared/Aetheris.Schema.Tests/Aetheris.Schema.Tests.csproj --configuration ${{ env.CONFIGURATION }} --no-build -p:Platform=${{ env.PLATFORM }} --logger "trx;LogFileName=test-results.trx" --logger "console;verbosity=detailed"
+          dotnet test Shared/Aetheris.Schema.Tests/Aetheris.Schema.Tests.csproj --configuration ${{ env.CONFIGURATION }} --no-build -p:Platform=${{ env.PLATFORM }} --logger "trx;LogFileName=${{ github.workspace }}/test-results.trx" --logger "console;verbosity=detailed"
 
       - name: Publish WinUI 3 app (MSIX)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -83,5 +83,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-results-windows
-          path: '**/test-results.trx'
+          path: test-results.trx
           retention-days: 7
