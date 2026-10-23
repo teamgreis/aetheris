@@ -25,10 +25,6 @@ jobs:
   build:
     runs-on: windows-latest
     timeout-minutes: 30
-    defaults:
-      run:
-        shell: pwsh
-        working-directory: ${{ github.workspace }}
 
     steps:
       - name: Checkout repository
@@ -44,17 +40,24 @@ jobs:
         run: dotnet workload install wasm-tools 2>$null || true
 
       - name: Restore dependencies
-        run: dotnet restore ${{ env.SOLUTION_FILE }}
+        run: |
+          cd ${{ github.workspace }}
+          dotnet restore ${{ env.SOLUTION_FILE }}
 
       - name: Build solution
-        run: dotnet build ${{ env.SOLUTION_FILE }} --configuration ${{ env.CONFIGURATION }} --no-restore -p:Platform=${{ env.PLATFORM }}
+        run: |
+          cd ${{ github.workspace }}
+          dotnet build ${{ env.SOLUTION_FILE }} --configuration ${{ env.CONFIGURATION }} --no-restore -p:Platform=${{ env.PLATFORM }}
 
       - name: Run tests
-        run: dotnet test ${{ env.SOLUTION_FILE }} --configuration ${{ env.CONFIGURATION }} --no-build -p:Platform=${{ env.PLATFORM }} --logger "trx;LogFileName=test-results.trx"
+        run: |
+          cd ${{ github.workspace }}
+          dotnet test ${{ env.SOLUTION_FILE }} --configuration ${{ env.CONFIGURATION }} --no-build -p:Platform=${{ env.PLATFORM }} --logger "trx;LogFileName=test-results.trx"
 
       - name: Publish WinUI 3 app (MSIX)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
+          cd ${{ github.workspace }}
           dotnet publish Aetheris Studio/src/Aetheris.Studio/Aetheris.Studio.csproj `
             --configuration ${{ env.CONFIGURATION }} `
             --platform ${{ env.PLATFORM }} `
