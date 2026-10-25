@@ -20,6 +20,7 @@ env:
   SOLUTION_FILE: Aetheris.sln
   CONFIGURATION: Release
   PLATFORM: x64
+  RID: win-x64
 
 jobs:
   build:
@@ -60,7 +61,7 @@ jobs:
           cd ${{ github.workspace }}
           dotnet publish "Aetheris Studio/src/Aetheris.Studio/Aetheris.Studio.csproj" `
             --configuration ${{ env.CONFIGURATION }} `
-            --runtime win10-x64 `
+            --runtime ${{ env.RID }} `
             --self-contained true `
             -p:PublishProfile=win10-${{ env.PLATFORM }}.pubxml `
             -p:AppxPackageDir="$(pwd)/artifacts/" `
