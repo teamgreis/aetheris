@@ -34,6 +34,10 @@ public partial class App : Application
                 services.AddSingleton<IQrCodeService, QrCodeService>();
                 services.AddSingleton<ITransferService, TransferService>();
 
+                // UI Services (implemented in UI project)
+                services.AddSingleton<IDialogService, DialogService>();
+                services.AddSingleton<IFilePickerService, FilePickerService>();
+
                 services.AddTransient<AppViewModel>();
                 services.AddTransient<ProfileListViewModel>();
                 services.AddTransient<ProfileDetailViewModel>();
