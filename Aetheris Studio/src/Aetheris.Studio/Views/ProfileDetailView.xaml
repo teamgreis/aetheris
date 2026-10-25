@@ -261,6 +261,7 @@
                         <Button Content="QR-Code generieren" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding GenerateQrCodeCommand}" IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" />
                         <Button Content="Als Bild speichern" Style="{StaticResource SecondaryButtonStyle}" Command="{Binding SaveQrCodeCommand}" IsEnabled="{Binding QrCodeImage, Converter={StaticResource NotNullToBoolConverter}}" />
                         <Button Content="Datei exportieren" Style="{StaticResource SecondaryButtonStyle}" Command="{Binding ExportJsonCommand}" IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" />
+                        <Button Content="Chunked QR" Style="{StaticResource SecondaryButtonStyle}" Command="{Binding GenerateChunkedQrCodeCommand}" IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" ToolTipService.ToolTip="Für große Profile: mehrere QR-Codes generieren" />
                     </StackPanel>
 
                     <Border Grid.Row="1" Background="{ThemeResource SurfaceBrush}" BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1" CornerRadius="8" Padding="24" HorizontalAlignment="Center" VerticalAlignment="Center">

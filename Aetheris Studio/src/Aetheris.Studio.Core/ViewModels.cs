@@ -206,6 +206,47 @@ public sealed partial class ProfileDetailViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private async Task GenerateChunkedQrCodeAsync()
+    {
+        if (Profile == null) return;
+        IsLoading = true;
+        ErrorMessage = null;
+        try
+        {
+            var chunks = await _qrService.GenerateChunkedPngAsync(Profile, maxBytesPerChunk: 2500);
+            if (chunks.Count == 1)
+            {
+                QrCodeImage = chunks[0];
+                await _dialogService.ShowErrorAsync("QR-Code", "Profil passt in einen einzelnen QR-Code. Chunked Export nicht nötig.");
+            }
+            else
+            {
+                for (int i = 0; i < chunks.Count; i++)
+                {
+                    var filePath = await _filePickerService.SaveFileAsync(
+                        $"Aetheris_{Profile.Profile.Name}_QR_Part{i + 1}of{chunks.Count}",
+                        ".png",
+                        new[] { ("PNG Image", new[] { ".png" }) }
+                    );
+                    if (filePath != null)
+                    {
+                        await File.WriteAllBytesAsync(filePath, chunks[i]);
+                    }
+                }
+                await _dialogService.ShowErrorAsync("Chunked QR Export", $"{chunks.Count} QR-Codes gespeichert. Scanne sie nacheinander in Aetheris Mobile.");
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"Chunked QR generation failed: {ex.Message}";
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    [RelayCommand]
     private async Task SaveQrCodeAsync()
     {
         if (QrCodeImage == null) return;
