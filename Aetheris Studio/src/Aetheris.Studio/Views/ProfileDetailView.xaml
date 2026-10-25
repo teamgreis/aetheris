@@ -245,6 +245,21 @@
                                 </StackPanel>
                             </StackPanel>
                         </controls:Card>
+                        <!-- Encryption -->
+                        <controls:Card Padding="16" Header="Verschlüsselung & Sicherheit">
+                            <StackPanel Spacing="16">
+                                <ToggleSwitch Header="Verschlüsselung aktiviert" IsOn="{Binding Profile.EncryptionEnabled, Mode=TwoWay, FallbackValue=True}" OnContent="Ein" OffContent="Aus" />
+
+                                <StackPanel Visibility="{Binding Profile.EncryptionEnabled, Converter={StaticResource BoolToVisibilityConverter}}" Spacing="12">
+                                    <ToggleSwitch Header="Windows DPAPI verwenden (empfohlen)" IsOn="{Binding Profile.UseDpapi, Mode=TwoWay, FallbackValue=True}" OnContent="Ja (DPAPI)" OffContent="Nein (Passwort)" ToolTipService.ToolTip="DPAPI nutzt Windows-Anmeldung, Passwort erfordert manuelle Eingabe" />
+
+                                    <StackPanel Visibility="{Binding Profile.UseDpapi, Converter={StaticResource InverseBoolConverter}}" Spacing="12">
+                                        <PasswordBox Header="Verschlüsselungs-Passwort" PlaceholderText="Passwort eingeben" />
+                                        <PasswordBox Header="Passwort bestätigen" PlaceholderText="Passwort wiederholen" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </controls:Card>
                     </StackPanel>
                 </ScrollViewer>
             </controls:TabViewItem>
