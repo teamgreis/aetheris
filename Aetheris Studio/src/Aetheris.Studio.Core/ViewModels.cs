@@ -293,6 +293,7 @@ public sealed partial class ProfileDetailViewModel : ObservableObject
     }
 
     [RelayCommand]
+[RelayCommand]    private async Task ImportJsonAsync()    {        try        {            var filePath = await _filePickerService.OpenFileAsync(                ".json",                new[] { ("JSON", new[] { ".json" }) }            );            if (filePath == null) return;            var json = await File.ReadAllTextAsync(filePath);            var imported = await _transferService.ImportFromJsonAsync(json);            await _repository.SaveAsync(imported);            await _app.LoadProfilesAsync();            _app.SelectProfile(_app.Profiles.First(p => p.Id == imported.Profile.Id));            await _dialogService.ShowErrorAsync("Import erfolgreich", $"Profil "{imported.Profile.Name}" wurde importiert.");        }        catch (Exception ex)        {            await _dialogService.ShowErrorAsync("Import fehlgeschlagen", ex.Message);        }    }
     private void ClearError() => ErrorMessage = null;
 
     [RelayCommand]
@@ -536,3 +537,4 @@ public sealed partial class FindingViewModel : ObservableObject, INotifyDataErro
         ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
     }
 }
+    [RelayCommand]

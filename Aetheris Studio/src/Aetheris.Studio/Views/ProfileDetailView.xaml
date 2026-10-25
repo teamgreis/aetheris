@@ -261,6 +261,7 @@
                         <Button Content="QR-Code generieren" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding GenerateQrCodeCommand}" IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" />
                         <Button Content="Als Bild speichern" Style="{StaticResource SecondaryButtonStyle}" Command="{Binding SaveQrCodeCommand}" IsEnabled="{Binding QrCodeImage, Converter={StaticResource NotNullToBoolConverter}}" />
                         <Button Content="Datei exportieren" Style="{StaticResource SecondaryButtonStyle}" Command="{Binding ExportJsonCommand}" IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" />
+                        <Button Content="JSON importieren" Style="{StaticResource SecondaryButtonStyle}" Command="{Binding ImportJsonCommand}" IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" ToolTipService.ToolTip="Profil aus JSON-Datei importieren" />
                         <Button Content="Chunked QR" Style="{StaticResource SecondaryButtonStyle}" Command="{Binding GenerateChunkedQrCodeCommand}" IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" ToolTipService.ToolTip="Für große Profile: mehrere QR-Codes generieren" />
                     </StackPanel>
 
