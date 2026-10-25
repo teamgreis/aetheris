@@ -44,6 +44,10 @@ public sealed class Profile
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     public string? Notes { get; set; }
+
+    // Encryption settings (stored in profile for portability)
+    public bool EncryptionEnabled { get; set; } = true;
+    public bool UseDpapi { get; set; } = true;
 }
 
 /// <summary>

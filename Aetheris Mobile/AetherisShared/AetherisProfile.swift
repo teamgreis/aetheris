@@ -69,6 +69,8 @@ public struct Profile: Codable, Equatable, Sendable {
     public let createdAt: Date
     public let updatedAt: Date
     public let notes: String?
+    public var encryptionEnabled: Bool = true
+    public var useDpapi: Bool = true
 
     public init(id: UUID = UUID(), name: String, createdAt: Date = Date(), updatedAt: Date = Date(), notes: String? = nil) {
         self.id = id
