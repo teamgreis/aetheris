@@ -127,7 +127,11 @@ public sealed class FormatStringConverter : IValueConverter
 
         try
         {
-            return string.Format(CultureInfo.CurrentCulture, format, value);
+            if (format.Contains("{0}"))
+                return string.Format(CultureInfo.CurrentCulture, format, value);
+
+            // Plain .NET format specifier: "F1", "dd.MM.yyyy HH:mm", numeric "0 Stück"
+            return string.Format(CultureInfo.CurrentCulture, "{0:" + format + "}", value);
         }
         catch
         {

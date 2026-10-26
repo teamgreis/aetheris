@@ -39,8 +39,8 @@
                             <TextBlock Text="{Binding Name}" Style="{StaticResource TitleText}" />
                             <StackPanel Orientation="Horizontal" Spacing="12">
                                 <TextBlock Text="{Binding UpdatedAt, Converter={StaticResource FormatStringConverter}, ConverterParameter='Zuletzt: {0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" />
-                                <TextBlock Text="{Binding MeasurementCount, Converter={StaticResource FormatStringConverter}, ConverterParameter='{0} Messungen'}" Style="{StaticResource SecondaryText}" />
-                                <TextBlock Text="{Binding FindingCount, Converter={StaticResource FormatStringConverter}, ConverterParameter='{0} Einträge'}" Style="{StaticResource SecondaryText}" />
+                                <TextBlock Text="{Binding MeasurementCount, Converter={StaticResource FormatStringConverter}, ConverterParameter='0 Messungen'}" Style="{StaticResource SecondaryText}" />
+                                <TextBlock Text="{Binding FindingCount, Converter={StaticResource FormatStringConverter}, ConverterParameter='0 Einträge'}" Style="{StaticResource SecondaryText}" />
                             </StackPanel>
                         </StackPanel>
 

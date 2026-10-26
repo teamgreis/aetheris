@@ -92,7 +92,7 @@
                                         <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal" Spacing="24">
                                             <StackPanel Spacing="2">
                                                 <TextBlock Text="Frequenz (Hz)" Style="{StaticResource SecondaryText}" FontSize="11" />
-                                                <TextBlock Text="{Binding FrequencyHz, Converter={StaticResource FormatStringConverter}, ConverterParameter='{0:F1}', FallbackValue='—'}" Style="{StaticResource BodyText}" />
+                                                <TextBlock Text="{Binding FrequencyHz, Converter={StaticResource FormatStringConverter}, ConverterParameter='F1', FallbackValue='—'}" Style="{StaticResource BodyText}" />
                                             </StackPanel>
                                             <StackPanel Spacing="2">
                                                 <TextBlock Text="Amplitude" Style="{StaticResource SecondaryText}" FontSize="11" />
@@ -104,7 +104,7 @@
                                             </StackPanel>
                                             <StackPanel Spacing="2">
                                                 <TextBlock Text="Datum" Style="{StaticResource SecondaryText}" FontSize="11" />
-                                                <TextBlock Text="{Binding MeasuredAt, Converter={StaticResource FormatStringConverter}, ConverterParameter='{0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource BodyText}" />
+                                                <TextBlock Text="{Binding MeasuredAt, Converter={StaticResource FormatStringConverter}, ConverterParameter='dd.MM.yyyy HH:mm'}" Style="{StaticResource BodyText}" />
                                             </StackPanel>
                                         </StackPanel>
 
@@ -154,7 +154,7 @@
                                             </StackPanel>
                                             <TextBlock Text="{Binding Description}" Style="{StaticResource BodyText}" TextWrapping="Wrap" MaxLines="3" TextTrimming="CharacterEllipsis" />
                                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                                <TextBlock Text="{Binding RecordedAt, Converter={StaticResource FormatStringConverter}, ConverterParameter='{0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" FontSize="11" />
+                                                <TextBlock Text="{Binding RecordedAt, Converter={StaticResource FormatStringConverter}, ConverterParameter='dd.MM.yyyy HH:mm'}" Style="{StaticResource SecondaryText}" FontSize="11" />
                                                 <ItemsControl ItemsSource="{Binding Tags}">
                                                     <ItemsControl.ItemsPanel>
                                                         <ItemsPanelTemplate>
