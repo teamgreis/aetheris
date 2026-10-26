@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Aetheris.Studio.Core.ViewModels"
-    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     mc:Ignorable="d"
     d:DesignWidth="1000"
     d:DesignHeight="700"
@@ -29,42 +28,44 @@
         </StackPanel>
 
         <!-- Content Tabs -->
-        <controls:TabView Grid.Row="1" TabStripHeader="TabStripHeader" TabStripFooter="TabStripFooter">
-            <controls:TabView.TabStripHeader>
+        <TabView Grid.Row="1" TabStripHeader="TabStripHeader" TabStripFooter="TabStripFooter">
+            <TabView.TabStripHeader>
                 <Grid Width="48" />
-            </controls:TabView.TabStripHeader>
+            </TabView.TabStripHeader>
 
-            <controls:TabView.TabStripFooter>
+            <TabView.TabStripFooter>
                 <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,16,0">
                     <Button Content="Messung" Style="{StaticResource TabAddButtonStyle}" Command="{Binding AddMeasurementCommand}" />
                     <Button Content="Eintrag" Style="{StaticResource TabAddButtonStyle}" Command="{Binding AddFindingCommand}" />
                 </StackPanel>
-            </controls:TabView.TabStripFooter>
+            </TabView.TabStripFooter>
 
             <!-- Profile Info Tab -->
-            <controls:TabViewItem Header="Profil" IconSource="Person">
+            <TabViewItem Header="Profil" IconSource="Person">
                 <ScrollViewer>
                     <StackPanel Spacing="24" Margin="8">
-                        <controls:Card Padding="16" Header="Grundinformationen">
+                        <Border Style="{StaticResource CardStyle}" Padding="16">
                             <StackPanel Spacing="16">
+                                <TextBlock Text="Grundinformationen" Style="{StaticResource TitleText}" />
                                 <TextBox Header="Profilname" Text="{Binding Profile.Profile.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Name des Profils" />
                                 <TextBox Header="Notizen" Text="{Binding Profile.Profile.Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Optionale Notizen" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="100" />
                             </StackPanel>
-                        </controls:Card>
+                        </Border>
 
-                        <controls:Card Padding="16" Header="Metadaten">
+                        <Border Style="{StaticResource CardStyle}" Padding="16">
                             <StackPanel Spacing="8">
+                                <TextBlock Text="Metadaten" Style="{StaticResource TitleText}" />
                                 <TextBlock Text="{Binding Profile.Profile.Id, Converter={StaticResource FormatStringConverter}, ConverterParameter='ID: {0}'}" Style="{StaticResource SecondaryText}" />
                                 <TextBlock Text="{Binding Profile.Profile.CreatedAt, Converter={StaticResource FormatStringConverter}, ConverterParameter='Erstellt: {0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" />
                                 <TextBlock Text="{Binding Profile.Profile.UpdatedAt, Converter={StaticResource FormatStringConverter}, ConverterParameter='Aktualisiert: {0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" />
                             </StackPanel>
-                        </controls:Card>
+                        </Border>
                     </StackPanel>
                 </ScrollViewer>
-            </controls:TabViewItem>
+            </TabViewItem>
 
             <!-- Measurements Tab -->
-            <controls:TabViewItem Header="Messungen" IconSource="Analytics">
+            <TabViewItem Header="Messungen" IconSource="Analytics">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -76,7 +77,7 @@
                     <ListView x:Name="MeasurementList" Grid.Row="1" ItemsSource="{Binding Measurements}" SelectedItem="{Binding SelectedMeasurement, Mode=TwoWay}" SelectionMode="Single">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="vm:MeasurementViewModel">
-                                <controls:Card Padding="16" Margin="0,4">
+                                <Border Style="{StaticResource CardStyle}" Padding="16" Margin="0,4">
                                     <Grid ColumnSpacing="16" RowSpacing="8">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
@@ -110,7 +111,7 @@
 
                                         <Button Grid.Column="2" Content="&#xE74D;" Style="{StaticResource IconButtonStyle}" Command="{Binding DataContext.RemoveMeasurementCommand, ElementName=MeasurementList}" CommandParameter="{Binding}" ToolTipService.ToolTip="Entfernen" />
                                     </Grid>
-                                </controls:Card>
+                                </Border>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                         <ListView.ItemContainerStyle>
@@ -121,10 +122,10 @@
                         </ListView.ItemContainerStyle>
                     </ListView>
                 </Grid>
-            </controls:TabViewItem>
+            </TabViewItem>
 
             <!-- Findings Tab -->
-            <controls:TabViewItem Header="Einträge" IconSource="Document">
+            <TabViewItem Header="Einträge" IconSource="Document">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -136,7 +137,7 @@
                     <ListView x:Name="FindingsList" Grid.Row="1" ItemsSource="{Binding Findings}" SelectedItem="{Binding SelectedFinding, Mode=TwoWay}" SelectionMode="Single">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="vm:FindingViewModel">
-                                <controls:Card Padding="16" Margin="0,4">
+                                <Border Style="{StaticResource CardStyle}" Padding="16" Margin="0,4">
                                     <Grid ColumnSpacing="16" RowSpacing="8">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
@@ -174,7 +175,7 @@
 
                                         <Button Grid.Column="2" Content="&#xE74D;" Style="{StaticResource IconButtonStyle}" Command="{Binding DataContext.RemoveFindingCommand, ElementName=FindingsList}" CommandParameter="{Binding}" ToolTipService.ToolTip="Entfernen" />
                                     </Grid>
-                                </controls:Card>
+                                </Border>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                         <ListView.ItemContainerStyle>
@@ -185,15 +186,16 @@
                         </ListView.ItemContainerStyle>
                     </ListView>
                 </Grid>
-            </controls:TabViewItem>
+            </TabViewItem>
 
             <!-- Settings Tab -->
-            <controls:TabViewItem Header="Assistenz" IconSource="Settings">
+            <TabViewItem Header="Assistenz" IconSource="Settings">
                 <ScrollViewer>
                     <StackPanel Spacing="24" Margin="8">
                         <!-- Touch Assist -->
-                        <controls:Card Padding="16" Header="Touch-Assistenz">
+                        <Border Style="{StaticResource CardStyle}" Padding="16">
                             <StackPanel Spacing="16">
+                                <TextBlock Text="Touch-Assistenz" Style="{StaticResource TitleText}" />
                                 <ToggleSwitch Header="Aktiviert" IsOn="{Binding Profile.Settings.TouchAssist.Enabled, Mode=TwoWay}" OnContent="Ein" OffContent="Aus" />
 
                                 <StackPanel Visibility="{Binding Profile.Settings.TouchAssist.Enabled, Converter={StaticResource BoolToVisibilityConverter}}" Spacing="12">
@@ -204,11 +206,12 @@
                                     <NumberBox Header="Glättung" Value="{Binding Profile.Settings.TouchAssist.StabilizationSmoothing, Mode=TwoWay}" Minimum="0" Maximum="1" SmallChange="0.1" SpinButtonPlacementMode="Inline" PlaceholderText="Adaptiv" Visibility="{Binding Profile.Settings.TouchAssist.StabilizationEnabled, Converter={StaticResource BoolToVisibilityConverter}}" />
                                 </StackPanel>
                             </StackPanel>
-                        </controls:Card>
+                        </Border>
 
                         <!-- Motion Assist -->
-                        <controls:Card Padding="16" Header="Bewegung reduzieren">
+                        <Border Style="{StaticResource CardStyle}" Padding="16">
                             <StackPanel Spacing="16">
+                                <TextBlock Text="Bewegung reduzieren" Style="{StaticResource TitleText}" />
                                 <ToggleSwitch Header="Aktiviert" IsOn="{Binding Profile.Settings.MotionAssist.Enabled, Mode=TwoWay}" OnContent="Ein" OffContent="Aus" />
 
                                 <StackPanel Visibility="{Binding Profile.Settings.MotionAssist.Enabled, Converter={StaticResource BoolToVisibilityConverter}}" Spacing="12">
@@ -217,11 +220,12 @@
                                     <ToggleSwitch Header="Schütteln für Rückgängig deaktivieren" IsOn="{Binding Profile.Settings.MotionAssist.ShakeToUndoDisabled, Mode=TwoWay}" OnContent="Ein" OffContent="Aus" />
                                 </StackPanel>
                             </StackPanel>
-                        </controls:Card>
+                        </Border>
 
                         <!-- Voice Assist -->
-                        <controls:Card Padding="16" Header="Sprache &amp; Diktat">
+                        <Border Style="{StaticResource CardStyle}" Padding="16">
                             <StackPanel Spacing="16">
+                                <TextBlock Text="Sprache &amp; Diktat" Style="{StaticResource TitleText}" />
                                 <ToggleSwitch Header="Aktiviert" IsOn="{Binding Profile.Settings.VoiceAssist.Enabled, Mode=TwoWay}" OnContent="Ein" OffContent="Aus" />
 
                                 <StackPanel Visibility="{Binding Profile.Settings.VoiceAssist.Enabled, Converter={StaticResource BoolToVisibilityConverter}}" Spacing="12">
@@ -229,11 +233,12 @@
                                     <ToggleSwitch Header="Diktat" IsOn="{Binding Profile.Settings.VoiceAssist.DictationEnabled, Mode=TwoWay}" OnContent="Ein" OffContent="Aus" />
                                 </StackPanel>
                             </StackPanel>
-                        </controls:Card>
+                        </Border>
 
                         <!-- Display Assist -->
-                        <controls:Card Padding="16" Header="Darstellung">
+                        <Border Style="{StaticResource CardStyle}" Padding="16">
                             <StackPanel Spacing="16">
+                                <TextBlock Text="Darstellung" Style="{StaticResource TitleText}" />
                                 <ToggleSwitch Header="Aktiviert" IsOn="{Binding Profile.Settings.DisplayAssist.Enabled, Mode=TwoWay}" OnContent="Ein" OffContent="Aus" />
 
                                 <StackPanel Visibility="{Binding Profile.Settings.DisplayAssist.Enabled, Converter={StaticResource BoolToVisibilityConverter}}" Spacing="12">
@@ -244,10 +249,11 @@
                                     <ToggleSwitch Header="Weißpunkt reduzieren" IsOn="{Binding Profile.Settings.DisplayAssist.ReduceWhitePoint, Mode=TwoWay}" OnContent="Ein" OffContent="Aus" />
                                 </StackPanel>
                             </StackPanel>
-                        </controls:Card>
+                        </Border>
                         <!-- Encryption -->
-                        <controls:Card Padding="16" Header="Verschlüsselung &amp; Sicherheit">
+                        <Border Style="{StaticResource CardStyle}" Padding="16">
                             <StackPanel Spacing="16">
+                                <TextBlock Text="Verschlüsselung &amp; Sicherheit" Style="{StaticResource TitleText}" />
                                 <ToggleSwitch Header="Verschlüsselung aktiviert" IsOn="{Binding Profile.EncryptionEnabled, Mode=TwoWay, FallbackValue=True}" OnContent="Ein" OffContent="Aus" />
 
                                 <StackPanel Visibility="{Binding Profile.EncryptionEnabled, Converter={StaticResource BoolToVisibilityConverter}}" Spacing="12">
@@ -259,13 +265,13 @@
                                     </StackPanel>
                                 </StackPanel>
                             </StackPanel>
-                        </controls:Card>
+                        </Border>
                     </StackPanel>
                 </ScrollViewer>
-            </controls:TabViewItem>
+            </TabViewItem>
 
             <!-- QR Code Tab -->
-            <controls:TabViewItem Header="QR-Export" IconSource="QRCode">
+            <TabViewItem Header="QR-Export" IconSource="QRCode">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -287,8 +293,8 @@
                         </Grid>
                     </Border>
                 </Grid>
-            </controls:TabViewItem>
-        </controls:TabView>
+            </TabViewItem>
+        </TabView>
 
         <!-- Error Banner -->
         <Border Grid.Row="1" VerticalAlignment="Top" Margin="0,8,0,0" Background="{ThemeResource ErrorBrush}" CornerRadius="8" Padding="12,8" Visibility="{Binding ErrorMessage, Converter={StaticResource NotNullToVisibilityConverter}}">
