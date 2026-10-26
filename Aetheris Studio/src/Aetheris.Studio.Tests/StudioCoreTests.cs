@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Aetheris.Schema;
 using Aetheris.Studio.Core;
+using Microsoft.Extensions.Logging;
 using FluentAssertions;
 using Moq;
 using Xunit;
