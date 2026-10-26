@@ -63,7 +63,7 @@ public sealed partial class AppViewModel : ObservableObject
         SelectedProfile = profile;
         if (profile != null)
         {
-            CurrentView = new ProfileDetailViewModel(this, _repository, _qrService, _transferService, _filePickerService, profile.Id);
+            CurrentView = new ProfileDetailViewModel(this, _repository, _qrService, _transferService, _dialogService, _filePickerService, profile.Id);
         }
         else
         {
@@ -115,6 +115,7 @@ public sealed partial class ProfileDetailViewModel : ObservableObject
     private readonly IProfileRepository _repository;
     private readonly IQrCodeService _qrService;
     private readonly ITransferService _transferService;
+    private readonly IDialogService _dialogService;
     private readonly IFilePickerService _filePickerService;
     private readonly Guid _profileId;
 
@@ -142,12 +143,13 @@ public sealed partial class ProfileDetailViewModel : ObservableObject
     public ObservableCollection<MeasurementViewModel> Measurements { get; } = new();
     public ObservableCollection<FindingViewModel> Findings { get; } = new();
 
-    public ProfileDetailViewModel(AppViewModel app, IProfileRepository repository, IQrCodeService qrService, ITransferService transferService, IFilePickerService filePickerService, Guid profileId)
+    public ProfileDetailViewModel(AppViewModel app, IProfileRepository repository, IQrCodeService qrService, ITransferService transferService, IDialogService dialogService, IFilePickerService filePickerService, Guid profileId)
     {
         _app = app;
         _repository = repository;
         _qrService = qrService;
         _transferService = transferService;
+        _dialogService = dialogService;
         _filePickerService = filePickerService;
         _profileId = profileId;
     }
@@ -185,7 +187,7 @@ public sealed partial class ProfileDetailViewModel : ObservableObject
         {
             ApplyCollectionsToProfile();
             await _repository.SaveAsync(Profile);
-            _app.LoadProfilesAsync(); // Refresh list
+            await _app.LoadProfilesAsync(); // Refresh list
         }
         catch (Exception ex)
         {
