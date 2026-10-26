@@ -29,14 +29,14 @@ public sealed class FilePickerService : IFilePickerService
 
     public async Task<string?> OpenFileAsync(string defaultExtension, IEnumerable<(string Name, string[] Extensions)> fileTypeChoices)
     {
-        var picker = new FileOpenPicker
-        {
-            DefaultFileExtension = defaultExtension
-        };
+        var picker = new FileOpenPicker();
 
-        foreach (var (name, extensions) in fileTypeChoices)
+        foreach (var (_, extensions) in fileTypeChoices)
         {
-            picker.FileTypeFilter.Add(name, extensions);
+            foreach (var extension in extensions)
+            {
+                picker.FileTypeFilter.Add(extension);
+            }
         }
 
         var hwnd = WindowNative.GetWindowHandle(App.MainWindow);

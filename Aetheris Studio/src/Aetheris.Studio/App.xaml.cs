@@ -55,7 +55,7 @@ public partial class App : Application
 
         var mainWindow = new MainWindow
         {
-            DataContext = _host.Services.GetRequiredService<AppViewModel>()
+            ViewModel = _host.Services.GetRequiredService<AppViewModel>()
         };
         MainWindow = mainWindow;
 
