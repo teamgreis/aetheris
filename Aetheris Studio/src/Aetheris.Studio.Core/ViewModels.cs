@@ -48,7 +48,7 @@ public sealed partial class AppViewModel : ObservableObject
     [RelayCommand]
     public async Task NewProfileAsync()
     {
-        var name = await _dialogService.PromptForNameAsync("New Profile");
+        var name = await _dialogService.PromptForNameAsync("Neues Profil");
         if (!string.IsNullOrWhiteSpace(name))
         {
             var id = await _repository.CreateNewAsync(name!);
@@ -122,6 +122,12 @@ public sealed partial class ProfileDetailViewModel : ObservableObject
     private AetherisProfile? _profile;
 
     [ObservableProperty]
+    private MeasurementViewModel? _selectedMeasurement;
+
+    [ObservableProperty]
+    private FindingViewModel? _selectedFinding;
+
+    [ObservableProperty]
     private bool _isLoading;
 
     [ObservableProperty]
@@ -161,7 +167,7 @@ public sealed partial class ProfileDetailViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Failed to load profile: {ex.Message}";
+            ErrorMessage = $"Profil konnte nicht geladen werden: {ex.Message}";
         }
         finally
         {
@@ -183,7 +189,7 @@ public sealed partial class ProfileDetailViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Save failed: {ex.Message}";
+            ErrorMessage = $"Speichern fehlgeschlagen: {ex.Message}";
         }
         finally
         {
@@ -201,7 +207,7 @@ public sealed partial class ProfileDetailViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"QR generation failed: {ex.Message}";
+            ErrorMessage = $"QR-Code-Generierung fehlgeschlagen: {ex.Message}";
         }
     }
 
@@ -238,7 +244,7 @@ public sealed partial class ProfileDetailViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Chunked QR generation failed: {ex.Message}";
+            ErrorMessage = $"Chunked-QR-Generierung fehlgeschlagen: {ex.Message}";
         }
         finally
         {
@@ -264,7 +270,7 @@ public sealed partial class ProfileDetailViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Save QR failed: {ex.Message}";
+            ErrorMessage = $"QR-Speichern fehlgeschlagen: {ex.Message}";
         }
     }
 
@@ -288,12 +294,35 @@ public sealed partial class ProfileDetailViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Export failed: {ex.Message}";
+            ErrorMessage = $"Export fehlgeschlagen: {ex.Message}";
         }
     }
 
     [RelayCommand]
-[RelayCommand]    private async Task ImportJsonAsync()    {        try        {            var filePath = await _filePickerService.OpenFileAsync(                ".json",                new[] { ("JSON", new[] { ".json" }) }            );            if (filePath == null) return;            var json = await File.ReadAllTextAsync(filePath);            var imported = await _transferService.ImportFromJsonAsync(json);            await _repository.SaveAsync(imported);            await _app.LoadProfilesAsync();            _app.SelectProfile(_app.Profiles.First(p => p.Id == imported.Profile.Id));            await _dialogService.ShowErrorAsync("Import erfolgreich", $"Profil "{imported.Profile.Name}" wurde importiert.");        }        catch (Exception ex)        {            await _dialogService.ShowErrorAsync("Import fehlgeschlagen", ex.Message);        }    }
+    private async Task ImportJsonAsync()
+    {
+        try
+        {
+            var filePath = await _filePickerService.OpenFileAsync(
+                ".json",
+                new[] { ("JSON", new[] { ".json" }) }
+            );
+            if (filePath == null) return;
+
+            var json = await File.ReadAllTextAsync(filePath);
+            var imported = await _transferService.ImportFromJsonAsync(json);
+            await _repository.SaveAsync(imported);
+            await _app.LoadProfilesAsync();
+            _app.SelectProfile(_app.Profiles.First(p => p.Id == imported.Profile.Id));
+            await _dialogService.ShowErrorAsync("Import erfolgreich", $"Profil \"{imported.Profile.Name}\" wurde importiert.");
+        }
+        catch (Exception ex)
+        {
+            await _dialogService.ShowErrorAsync("Import fehlgeschlagen", ex.Message);
+        }
+    }
+
+    [RelayCommand]
     private void ClearError() => ErrorMessage = null;
 
     [RelayCommand]
@@ -537,4 +566,3 @@ public sealed partial class FindingViewModel : ObservableObject, INotifyDataErro
         ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
     }
 }
-    [RelayCommand]
