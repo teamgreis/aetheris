@@ -8,7 +8,6 @@
     xmlns:views="using:Aetheris.Studio.Views"
     mc:Ignorable="d"
     Title="Aetheris Studio"
-    ExtendsContentIntoTitleBar="True"
     SystemBackdrop="{ThemeResource MicaBackdrop}">
 
     <Grid>
