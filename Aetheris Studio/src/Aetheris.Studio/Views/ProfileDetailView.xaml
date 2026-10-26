@@ -246,7 +246,7 @@
                             </StackPanel>
                         </controls:Card>
                         <!-- Encryption -->
-                        <controls:Card Padding="16" Header="Verschlüsselung & Sicherheit">
+                        <controls:Card Padding="16" Header="Verschlüsselung &amp; Sicherheit">
                             <StackPanel Spacing="16">
                                 <ToggleSwitch Header="Verschlüsselung aktiviert" IsOn="{Binding Profile.EncryptionEnabled, Mode=TwoWay, FallbackValue=True}" OnContent="Ein" OffContent="Aus" />
 
