@@ -58,14 +58,12 @@ public partial class App : Application
             DataContext = _host.Services.GetRequiredService<AppViewModel>()
         };
         MainWindow = mainWindow;
+
+        // WinUI 3 has no Application.OnExit override: dispose the host when the window closes
+        mainWindow.Closed += (_, _) => _host?.Dispose();
+
         mainWindow.Activate();
 
         base.OnLaunched(args);
-    }
-
-    protected override void OnExit(ExitEventArgs e)
-    {
-        _host?.Dispose();
-        base.OnExit(e);
     }
 }
