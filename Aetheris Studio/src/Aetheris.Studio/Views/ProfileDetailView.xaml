@@ -281,8 +281,10 @@
                     </StackPanel>
 
                     <Border Grid.Row="1" Background="{ThemeResource SurfaceBrush}" BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1" CornerRadius="8" Padding="24" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Image Source="{Binding QrCodeImage, Converter={StaticResource ByteArrayToBitmapConverter}}" MaxWidth="400" MaxHeight="400" Stretch="Uniform" Visibility="{Binding QrCodeImage, Converter={StaticResource NotNullToVisibilityConverter}}" />
-                        <TextBlock Text="Noch kein QR-Code generiert" Style="{StaticResource SecondaryText}" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding QrCodeImage, Converter={StaticResource NullToVisibilityConverter}}" />
+                        <Grid>
+                            <Image Source="{Binding QrCodeImage, Converter={StaticResource ByteArrayToBitmapConverter}}" MaxWidth="400" MaxHeight="400" Stretch="Uniform" Visibility="{Binding QrCodeImage, Converter={StaticResource NotNullToVisibilityConverter}}" />
+                            <TextBlock Text="Noch kein QR-Code generiert" Style="{StaticResource SecondaryText}" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding QrCodeImage, Converter={StaticResource NullToVisibilityConverter}}" />
+                        </Grid>
                     </Border>
                 </Grid>
             </controls:TabViewItem>
