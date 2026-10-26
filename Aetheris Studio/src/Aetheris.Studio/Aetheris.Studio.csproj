@@ -9,7 +9,6 @@
     <Version>1.0.0</Version>
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
-    <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <ApplicationManifest>app.manifest</ApplicationManifest>
