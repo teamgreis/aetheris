@@ -282,22 +282,45 @@ public interface IKeyProvider
 public sealed class DpapiKeyProvider : IKeyProvider
 {
     private static readonly byte[] Entropy = "Aetheris.Studio.ProfileKey"u8.ToArray();
+    private readonly string _keyFilePath;
+
+    public DpapiKeyProvider() : this(GetDefaultKeyFilePath())
+    {
+    }
+
+    public DpapiKeyProvider(string keyFilePath)
+    {
+        _keyFilePath = keyFilePath;
+    }
+
+    private static string GetDefaultKeyFilePath() => Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+        "Aetheris", "aetheris.key.bin");
 
     public Task<byte[]> GetKeyAsync(EncryptionSettings settings, CancellationToken ct = default)
     {
-        // Generate a machine/user-specific key using DPAPI
-        var masterKey = new byte[32];
-        using (var rng = RandomNumberGenerator.Create())
-        {
-            rng.GetBytes(masterKey);
-        }
+        // The master key is generated once, persisted DPAPI-protected (per Windows
+        // user), and reused on every access: a random key per call would make saved
+        // profiles permanently undecryptable.
+        byte[] masterKey;
 
-        // Protect with DPAPI (user scope)
-        var protectedKey = ProtectedData.Protect(masterKey, Entropy, DataProtectionScope.CurrentUser);
+        if (File.Exists(_keyFilePath))
+        {
+            var protectedKey = File.ReadAllBytes(_keyFilePath);
+            masterKey = ProtectedData.Unprotect(protectedKey, Entropy, DataProtectionScope.CurrentUser);
+        }
+        else
+        {
+            masterKey = RandomNumberGenerator.GetBytes(32);
+            var protectedKey = ProtectedData.Protect(masterKey, Entropy, DataProtectionScope.CurrentUser);
+            var dir = Path.GetDirectoryName(_keyFilePath)!;
+            Directory.CreateDirectory(dir);
+            File.WriteAllBytes(_keyFilePath, protectedKey);
+        }
 
         // Derive final encryption key
         using var sha256 = SHA256.Create();
-        return Task.FromResult(sha256.ComputeHash(protectedKey));
+        return Task.FromResult(sha256.ComputeHash(masterKey));
     }
 }
 

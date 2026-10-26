@@ -236,7 +236,7 @@ public class TransferServiceTests
         json.Should().NotBeNullOrEmpty();
         json.Should().Contain("schemaVersion");
         json.Should().Contain("profile");
-        json.Should().Contain("QR Test");
+        json.Should().Contain("Transfer Test");
     }
 
     [Fact]
