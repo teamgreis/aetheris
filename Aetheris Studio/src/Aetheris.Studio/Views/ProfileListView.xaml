@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Aetheris.Studio.Core.ViewModels"
+    xmlns:core="using:Aetheris.Studio.Core"
     mc:Ignorable="d"
     d:DesignWidth="1000"
     d:DesignHeight="700"
@@ -25,7 +26,7 @@
         <!-- Profile List -->
         <ListView x:Name="ProfileList" Grid.Row="1" ItemsSource="{Binding Profiles}" SelectedItem="{Binding SelectedProfile, Mode=TwoWay}" SelectionMode="Single" IsItemClickEnabled="True">
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="vm:ProfileSummary">
+                <DataTemplate x:DataType="core:ProfileSummary">
                     <Grid Padding="16" ColumnSpacing="16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
