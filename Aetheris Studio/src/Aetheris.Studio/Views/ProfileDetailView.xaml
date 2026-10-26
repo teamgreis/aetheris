@@ -28,7 +28,7 @@
         </StackPanel>
 
         <!-- Content Tabs -->
-        <TabView Grid.Row="1" TabStripHeader="TabStripHeader" TabStripFooter="TabStripFooter">
+        <TabView Grid.Row="1">
             <TabView.TabStripHeader>
                 <Grid Width="48" />
             </TabView.TabStripHeader>
@@ -41,7 +41,10 @@
             </TabView.TabStripFooter>
 
             <!-- Profile Info Tab -->
-            <TabViewItem Header="Profil" IconSource="Person">
+            <TabViewItem Header="Profil">
+                <TabViewItem.IconSource>
+                    <FontIconSource Glyph="&#xE8FA;" FontFamily="Segoe Fluent Icons" />
+                </TabViewItem.IconSource>
                 <ScrollViewer>
                     <StackPanel Spacing="24" Margin="8">
                         <Border Style="{StaticResource CardStyle}" Padding="16">
@@ -65,7 +68,10 @@
             </TabViewItem>
 
             <!-- Measurements Tab -->
-            <TabViewItem Header="Messungen" IconSource="Analytics">
+            <TabViewItem Header="Messungen">
+                <TabViewItem.IconSource>
+                    <FontIconSource Glyph="&#xE9D2;" FontFamily="Segoe Fluent Icons" />
+                </TabViewItem.IconSource>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -125,7 +131,10 @@
             </TabViewItem>
 
             <!-- Findings Tab -->
-            <TabViewItem Header="Einträge" IconSource="Document">
+            <TabViewItem Header="Einträge">
+                <TabViewItem.IconSource>
+                    <FontIconSource Glyph="&#xE8A5;" FontFamily="Segoe Fluent Icons" />
+                </TabViewItem.IconSource>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -189,7 +198,10 @@
             </TabViewItem>
 
             <!-- Settings Tab -->
-            <TabViewItem Header="Assistenz" IconSource="Settings">
+            <TabViewItem Header="Assistenz">
+                <TabViewItem.IconSource>
+                    <FontIconSource Glyph="&#xE713;" FontFamily="Segoe Fluent Icons" />
+                </TabViewItem.IconSource>
                 <ScrollViewer>
                     <StackPanel Spacing="24" Margin="8">
                         <!-- Touch Assist -->
@@ -271,7 +283,10 @@
             </TabViewItem>
 
             <!-- QR Code Tab -->
-            <TabViewItem Header="QR-Export" IconSource="QRCode">
+            <TabViewItem Header="QR-Export">
+                <TabViewItem.IconSource>
+                    <FontIconSource Glyph="&#xE7C3;" FontFamily="Segoe Fluent Icons" />
+                </TabViewItem.IconSource>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
