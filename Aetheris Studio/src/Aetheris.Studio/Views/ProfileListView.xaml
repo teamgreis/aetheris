@@ -23,7 +23,7 @@
         </StackPanel>
 
         <!-- Profile List -->
-        <ListView Grid.Row="1" ItemsSource="{Binding Profiles}" SelectedItem="{Binding SelectedProfile, Mode=TwoWay}" SelectionMode="Single" IsItemClickEnabled="True">
+        <ListView x:Name="ProfileList" Grid.Row="1" ItemsSource="{Binding Profiles}" SelectedItem="{Binding SelectedProfile, Mode=TwoWay}" SelectionMode="Single" IsItemClickEnabled="True">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:ProfileSummary">
                     <Grid Padding="16" ColumnSpacing="16">
@@ -38,13 +38,13 @@
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
                             <TextBlock Text="{Binding Name}" Style="{StaticResource TitleText}" />
                             <StackPanel Orientation="Horizontal" Spacing="12">
-                                <TextBlock Text="{Binding UpdatedAt, StringFormat='{}Zuletzt: {0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" />
-                                <TextBlock Text="{Binding MeasurementCount, StringFormat='{}{0} Messungen'}" Style="{StaticResource SecondaryText}" />
-                                <TextBlock Text="{Binding FindingCount, StringFormat='{}{0} Einträge'}" Style="{StaticResource SecondaryText}" />
+                                <TextBlock Text="{Binding UpdatedAt, Converter={StaticResource FormatStringConverter}, ConverterParameter='Zuletzt: {0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" />
+                                <TextBlock Text="{Binding MeasurementCount, Converter={StaticResource FormatStringConverter}, ConverterParameter='{0} Messungen'}" Style="{StaticResource SecondaryText}" />
+                                <TextBlock Text="{Binding FindingCount, Converter={StaticResource FormatStringConverter}, ConverterParameter='{0} Einträge'}" Style="{StaticResource SecondaryText}" />
                             </StackPanel>
                         </StackPanel>
 
-                        <Button Grid.Column="2" Content="Öffnen" Style="{StaticResource AccentButtonStyle}" Command="{Binding DataContext.OpenProfileCommand, RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}" VerticalAlignment="Center" />
+                        <Button Grid.Column="2" Content="Öffnen" Style="{StaticResource AccentButtonStyle}" Command="{Binding DataContext.OpenProfileCommand, ElementName=ProfileList}" CommandParameter="{Binding}" VerticalAlignment="Center" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

@@ -13,6 +13,7 @@
     <local:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
     <local:EnumToStringConverter x:Key="EnumToStringConverter" />
     <local:ByteArrayToBitmapConverter x:Key="ByteArrayToBitmapConverter" />
+    <local:FormatStringConverter x:Key="FormatStringConverter" />
 
     <!-- Button Styles -->
     <Style x:Key="PrimaryButtonStyle" TargetType="Button">

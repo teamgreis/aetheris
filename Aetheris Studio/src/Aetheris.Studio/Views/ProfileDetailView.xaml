@@ -54,9 +54,9 @@
 
                         <controls:Card Padding="16" Header="Metadaten">
                             <StackPanel Spacing="8">
-                                <TextBlock Text="{Binding Profile.Profile.Id, StringFormat='{}ID: {0}'}" Style="{StaticResource SecondaryText}" />
-                                <TextBlock Text="{Binding Profile.Profile.CreatedAt, StringFormat='{}Erstellt: {0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" />
-                                <TextBlock Text="{Binding Profile.Profile.UpdatedAt, StringFormat='{}Aktualisiert: {0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" />
+                                <TextBlock Text="{Binding Profile.Profile.Id, Converter={StaticResource FormatStringConverter}, ConverterParameter='ID: {0}'}" Style="{StaticResource SecondaryText}" />
+                                <TextBlock Text="{Binding Profile.Profile.CreatedAt, Converter={StaticResource FormatStringConverter}, ConverterParameter='Erstellt: {0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" />
+                                <TextBlock Text="{Binding Profile.Profile.UpdatedAt, Converter={StaticResource FormatStringConverter}, ConverterParameter='Aktualisiert: {0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" />
                             </StackPanel>
                         </controls:Card>
                     </StackPanel>
@@ -73,7 +73,7 @@
 
                     <Button Grid.Row="0" Content="Messung hinzufügen" Style="{StaticResource SecondaryButtonStyle}" Command="{Binding AddMeasurementCommand}" HorizontalAlignment="Left" Margin="0,0,0,12" />
 
-                    <ListView Grid.Row="1" ItemsSource="{Binding Measurements}" SelectedItem="{Binding SelectedMeasurement, Mode=TwoWay}" SelectionMode="Single">
+                    <ListView x:Name="MeasurementList" Grid.Row="1" ItemsSource="{Binding Measurements}" SelectedItem="{Binding SelectedMeasurement, Mode=TwoWay}" SelectionMode="Single">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="vm:MeasurementViewModel">
                                 <controls:Card Padding="16" Margin="0,4">
@@ -92,7 +92,7 @@
                                         <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal" Spacing="24">
                                             <StackPanel Spacing="2">
                                                 <TextBlock Text="Frequenz (Hz)" Style="{StaticResource SecondaryText}" FontSize="11" />
-                                                <TextBlock Text="{Binding FrequencyHz, StringFormat='{}{0:F1}', FallbackValue='—'}" Style="{StaticResource BodyText}" />
+                                                <TextBlock Text="{Binding FrequencyHz, Converter={StaticResource FormatStringConverter}, ConverterParameter='{0:F1}', FallbackValue='—'}" Style="{StaticResource BodyText}" />
                                             </StackPanel>
                                             <StackPanel Spacing="2">
                                                 <TextBlock Text="Amplitude" Style="{StaticResource SecondaryText}" FontSize="11" />
@@ -104,11 +104,11 @@
                                             </StackPanel>
                                             <StackPanel Spacing="2">
                                                 <TextBlock Text="Datum" Style="{StaticResource SecondaryText}" FontSize="11" />
-                                                <TextBlock Text="{Binding MeasuredAt, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource BodyText}" />
+                                                <TextBlock Text="{Binding MeasuredAt, Converter={StaticResource FormatStringConverter}, ConverterParameter='{0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource BodyText}" />
                                             </StackPanel>
                                         </StackPanel>
 
-                                        <Button Grid.Column="2" Content="&#xE74D;" Style="{StaticResource IconButtonStyle}" Command="{Binding DataContext.RemoveMeasurementCommand, RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}" ToolTipService.ToolTip="Entfernen" />
+                                        <Button Grid.Column="2" Content="&#xE74D;" Style="{StaticResource IconButtonStyle}" Command="{Binding DataContext.RemoveMeasurementCommand, ElementName=MeasurementList}" CommandParameter="{Binding}" ToolTipService.ToolTip="Entfernen" />
                                     </Grid>
                                 </controls:Card>
                             </DataTemplate>
@@ -133,7 +133,7 @@
 
                     <Button Grid.Row="0" Content="Eintrag hinzufügen" Style="{StaticResource SecondaryButtonStyle}" Command="{Binding AddFindingCommand}" HorizontalAlignment="Left" Margin="0,0,0,12" />
 
-                    <ListView Grid.Row="1" ItemsSource="{Binding Findings}" SelectedItem="{Binding SelectedFinding, Mode=TwoWay}" SelectionMode="Single">
+                    <ListView x:Name="FindingsList" Grid.Row="1" ItemsSource="{Binding Findings}" SelectedItem="{Binding SelectedFinding, Mode=TwoWay}" SelectionMode="Single">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="vm:FindingViewModel">
                                 <controls:Card Padding="16" Margin="0,4">
@@ -150,11 +150,11 @@
                                             <StackPanel Orientation="Horizontal" Spacing="12">
                                                 <TextBlock Text="{Binding Category, Converter={StaticResource EnumToStringConverter}}" Style="{StaticResource SecondaryText}" FontSize="11" />
                                                 <TextBlock Text="{Binding BodyRegion, Converter={StaticResource EnumToStringConverter}, FallbackValue='—', TargetNullValue='—'}" Style="{StaticResource SecondaryText}" FontSize="11" />
-                                                <TextBlock Text="{Binding Severity, StringFormat='{}Schwere: {0}/10', FallbackValue='', TargetNullValue=''}" Style="{StaticResource SecondaryText}" FontSize="11" />
+                                                <TextBlock Text="{Binding Severity, Converter={StaticResource FormatStringConverter}, ConverterParameter='Schwere: {0}/10', FallbackValue='', TargetNullValue=''}" Style="{StaticResource SecondaryText}" FontSize="11" />
                                             </StackPanel>
                                             <TextBlock Text="{Binding Description}" Style="{StaticResource BodyText}" TextWrapping="Wrap" MaxLines="3" TextTrimming="CharacterEllipsis" />
                                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                                <TextBlock Text="{Binding RecordedAt, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" FontSize="11" />
+                                                <TextBlock Text="{Binding RecordedAt, Converter={StaticResource FormatStringConverter}, ConverterParameter='{0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" FontSize="11" />
                                                 <ItemsControl ItemsSource="{Binding Tags}">
                                                     <ItemsControl.ItemsPanel>
                                                         <ItemsPanelTemplate>
@@ -172,7 +172,7 @@
                                             </StackPanel>
                                         </StackPanel>
 
-                                        <Button Grid.Column="2" Content="&#xE74D;" Style="{StaticResource IconButtonStyle}" Command="{Binding DataContext.RemoveFindingCommand, RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}" ToolTipService.ToolTip="Entfernen" />
+                                        <Button Grid.Column="2" Content="&#xE74D;" Style="{StaticResource IconButtonStyle}" Command="{Binding DataContext.RemoveFindingCommand, ElementName=FindingsList}" CommandParameter="{Binding}" ToolTipService.ToolTip="Entfernen" />
                                     </Grid>
                                 </controls:Card>
                             </DataTemplate>
@@ -220,7 +220,7 @@
                         </controls:Card>
 
                         <!-- Voice Assist -->
-                        <controls:Card Padding="16" Header="Sprache & Diktat">
+                        <controls:Card Padding="16" Header="Sprache &amp; Diktat">
                             <StackPanel Spacing="16">
                                 <ToggleSwitch Header="Aktiviert" IsOn="{Binding Profile.Settings.VoiceAssist.Enabled, Mode=TwoWay}" OnContent="Ein" OffContent="Aus" />
 

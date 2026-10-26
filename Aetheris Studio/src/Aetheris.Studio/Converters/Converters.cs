@@ -117,6 +117,30 @@ public sealed class EnumToStringConverter : IValueConverter
     }
 }
 
+public sealed class FormatStringConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, string language)
+    {
+        var format = parameter as string;
+        if (string.IsNullOrEmpty(format))
+            return value?.ToString() ?? string.Empty;
+
+        try
+        {
+            return string.Format(CultureInfo.CurrentCulture, format, value);
+        }
+        catch
+        {
+            return value?.ToString() ?? string.Empty;
+        }
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    {
+        throw new NotImplementedException();
+    }
+}
+
 public sealed class ByteArrayToBitmapConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
