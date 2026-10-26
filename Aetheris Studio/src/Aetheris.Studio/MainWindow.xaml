@@ -7,8 +7,6 @@
     xmlns:views="using:Aetheris.Studio.Views"
     mc:Ignorable="d"
     Title="Aetheris Studio"
-    MinWidth="1000"
-    MinHeight="700"
     ExtendsContentIntoTitleBar="True"
     SystemBackdrop="{ThemeResource MicaBackdrop}">
 

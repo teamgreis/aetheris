@@ -38,9 +38,9 @@
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
                             <TextBlock Text="{Binding Name}" Style="{StaticResource TitleText}" />
                             <StackPanel Orientation="Horizontal" Spacing="12">
-                                <TextBlock Text="{Binding UpdatedAt, StringFormat='Zuletzt: {0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" />
-                                <TextBlock Text="{Binding MeasurementCount, StringFormat='{0} Messungen'}" Style="{StaticResource SecondaryText}" />
-                                <TextBlock Text="{Binding FindingCount, StringFormat='{0} Einträge'}" Style="{StaticResource SecondaryText}" />
+                                <TextBlock Text="{Binding UpdatedAt, StringFormat='{}Zuletzt: {0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" />
+                                <TextBlock Text="{Binding MeasurementCount, StringFormat='{}{0} Messungen'}" Style="{StaticResource SecondaryText}" />
+                                <TextBlock Text="{Binding FindingCount, StringFormat='{}{0} Einträge'}" Style="{StaticResource SecondaryText}" />
                             </StackPanel>
                         </StackPanel>
 

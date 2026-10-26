@@ -54,9 +54,9 @@
 
                         <controls:Card Padding="16" Header="Metadaten">
                             <StackPanel Spacing="8">
-                                <TextBlock Text="{Binding Profile.Profile.Id, StringFormat='ID: {0}'}" Style="{StaticResource SecondaryText}" />
-                                <TextBlock Text="{Binding Profile.Profile.CreatedAt, StringFormat='Erstellt: {0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" />
-                                <TextBlock Text="{Binding Profile.Profile.UpdatedAt, StringFormat='Aktualisiert: {0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" />
+                                <TextBlock Text="{Binding Profile.Profile.Id, StringFormat='{}ID: {0}'}" Style="{StaticResource SecondaryText}" />
+                                <TextBlock Text="{Binding Profile.Profile.CreatedAt, StringFormat='{}Erstellt: {0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" />
+                                <TextBlock Text="{Binding Profile.Profile.UpdatedAt, StringFormat='{}Aktualisiert: {0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" />
                             </StackPanel>
                         </controls:Card>
                     </StackPanel>
@@ -92,7 +92,7 @@
                                         <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal" Spacing="24">
                                             <StackPanel Spacing="2">
                                                 <TextBlock Text="Frequenz (Hz)" Style="{StaticResource SecondaryText}" FontSize="11" />
-                                                <TextBlock Text="{Binding FrequencyHz, StringFormat='{0:F1}', FallbackValue='—'}" Style="{StaticResource BodyText}" />
+                                                <TextBlock Text="{Binding FrequencyHz, StringFormat='{}{0:F1}', FallbackValue='—'}" Style="{StaticResource BodyText}" />
                                             </StackPanel>
                                             <StackPanel Spacing="2">
                                                 <TextBlock Text="Amplitude" Style="{StaticResource SecondaryText}" FontSize="11" />
@@ -104,7 +104,7 @@
                                             </StackPanel>
                                             <StackPanel Spacing="2">
                                                 <TextBlock Text="Datum" Style="{StaticResource SecondaryText}" FontSize="11" />
-                                                <TextBlock Text="{Binding MeasuredAt, StringFormat='{0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource BodyText}" />
+                                                <TextBlock Text="{Binding MeasuredAt, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource BodyText}" />
                                             </StackPanel>
                                         </StackPanel>
 
@@ -150,11 +150,11 @@
                                             <StackPanel Orientation="Horizontal" Spacing="12">
                                                 <TextBlock Text="{Binding Category, Converter={StaticResource EnumToStringConverter}}" Style="{StaticResource SecondaryText}" FontSize="11" />
                                                 <TextBlock Text="{Binding BodyRegion, Converter={StaticResource EnumToStringConverter}, FallbackValue='—', TargetNullValue='—'}" Style="{StaticResource SecondaryText}" FontSize="11" />
-                                                <TextBlock Text="{Binding Severity, StringFormat='Schwere: {0}/10', FallbackValue='', TargetNullValue=''}" Style="{StaticResource SecondaryText}" FontSize="11" />
+                                                <TextBlock Text="{Binding Severity, StringFormat='{}Schwere: {0}/10', FallbackValue='', TargetNullValue=''}" Style="{StaticResource SecondaryText}" FontSize="11" />
                                             </StackPanel>
                                             <TextBlock Text="{Binding Description}" Style="{StaticResource BodyText}" TextWrapping="Wrap" MaxLines="3" TextTrimming="CharacterEllipsis" />
                                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                                <TextBlock Text="{Binding RecordedAt, StringFormat='{0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" FontSize="11" />
+                                                <TextBlock Text="{Binding RecordedAt, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource SecondaryText}" FontSize="11" />
                                                 <ItemsControl ItemsSource="{Binding Tags}">
                                                     <ItemsControl.ItemsPanel>
                                                         <ItemsPanelTemplate>
