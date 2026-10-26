@@ -282,6 +282,7 @@ public interface IKeyProvider
 public sealed class DpapiKeyProvider : IKeyProvider
 {
     private static readonly byte[] Entropy = "Aetheris.Studio.ProfileKey"u8.ToArray();
+    private static readonly object KeyFileLock = new();
     private readonly string _keyFilePath;
 
     public DpapiKeyProvider() : this(GetDefaultKeyFilePath())
@@ -301,26 +302,30 @@ public sealed class DpapiKeyProvider : IKeyProvider
     {
         // The master key is generated once, persisted DPAPI-protected (per Windows
         // user), and reused on every access: a random key per call would make saved
-        // profiles permanently undecryptable.
-        byte[] masterKey;
-
-        if (File.Exists(_keyFilePath))
+        // profiles permanently undecryptable. Serialize access since the key file
+        // is shared by all repository instances in the process.
+        lock (KeyFileLock)
         {
-            var protectedKey = File.ReadAllBytes(_keyFilePath);
-            masterKey = ProtectedData.Unprotect(protectedKey, Entropy, DataProtectionScope.CurrentUser);
-        }
-        else
-        {
-            masterKey = RandomNumberGenerator.GetBytes(32);
-            var protectedKey = ProtectedData.Protect(masterKey, Entropy, DataProtectionScope.CurrentUser);
-            var dir = Path.GetDirectoryName(_keyFilePath)!;
-            Directory.CreateDirectory(dir);
-            File.WriteAllBytes(_keyFilePath, protectedKey);
-        }
+            byte[] masterKey;
 
-        // Derive final encryption key
-        using var sha256 = SHA256.Create();
-        return Task.FromResult(sha256.ComputeHash(masterKey));
+            if (File.Exists(_keyFilePath))
+            {
+                var protectedKey = File.ReadAllBytes(_keyFilePath);
+                masterKey = ProtectedData.Unprotect(protectedKey, Entropy, DataProtectionScope.CurrentUser);
+            }
+            else
+            {
+                masterKey = RandomNumberGenerator.GetBytes(32);
+                var protectedKey = ProtectedData.Protect(masterKey, Entropy, DataProtectionScope.CurrentUser);
+                var dir = Path.GetDirectoryName(_keyFilePath)!;
+                Directory.CreateDirectory(dir);
+                File.WriteAllBytes(_keyFilePath, protectedKey);
+            }
+
+            // Derive final encryption key
+            using var sha256 = SHA256.Create();
+            return Task.FromResult(sha256.ComputeHash(masterKey));
+        }
     }
 }
 

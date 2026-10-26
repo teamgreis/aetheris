@@ -62,7 +62,7 @@ public class FileProfileRepositoryTests
         var profile = await repo.LoadAsync(id);
         var originalUpdated = profile!.Profile.UpdatedAt;
 
-        await Task.Delay(10);
+        await Task.Delay(1100); // UpdatedAt is persisted with second precision
         profile.Profile.Name = "Updated";
         await repo.SaveAsync(profile);
 
