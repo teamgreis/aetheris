@@ -9,6 +9,7 @@ on:
     branches: [main, develop]
     paths:
       - 'Shared/Aetheris.Schema/**'
+  workflow_dispatch:
 
 jobs:
   validate-schema:
@@ -56,6 +57,7 @@ jobs:
         run: dotnet pack Shared/Aetheris.Schema/Aetheris.Schema.csproj -c Release -o ./nupkg
 
       - name: Publish to NuGet
+        if: ${{ secrets.NUGET_API_KEY != '' }}
         run: dotnet nuget push ./nupkg/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
 
   publish-swift-package:

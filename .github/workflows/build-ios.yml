@@ -11,6 +11,7 @@ on:
     paths:
       - 'Aetheris Mobile/**'
       - 'Shared/Aetheris.Schema/**'
+  workflow_dispatch:
 
 jobs:
   build-ios:
