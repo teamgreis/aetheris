@@ -38,6 +38,11 @@ jobs:
           dotnet-version: '8.0.x'
           cache: false
 
+      # MSBuild.exe is required for MSIX packaging (dotnet publish cannot
+      # run the WinAppSDK packaging tasks)
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
       - name: Build and test schema
         run: |
           cd ${{ github.workspace }}
@@ -48,20 +53,27 @@ jobs:
           cd ${{ github.workspace }}
           dotnet test "Aetheris Studio/src/Aetheris.Studio.Tests/Aetheris.Studio.Tests.csproj" --configuration ${{ env.CONFIGURATION }} -p:Platform=${{ env.PLATFORM }} --logger "trx;LogFileName=studio-tests.trx"
 
-      - name: Publish WinUI 3 app (MSIX)
+      - name: Restore for MSIX packaging
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           cd ${{ github.workspace }}
-          dotnet publish "Aetheris Studio/src/Aetheris.Studio/Aetheris.Studio.csproj" `
-            --configuration ${{ env.CONFIGURATION }} `
-            --runtime ${{ env.RID }} `
-            --self-contained true `
-            -p:AppxPackageDir="$(pwd)/artifacts/" `
-            -p:GenerateAppxPackageOnBuild=true `
-            -p:AppxBundle=Never `
-            -p:UapAppxPackageBuildMode=CI `
-            -p:AppxPackageSigningEnabled=false `
-            -p:Platform=${{ env.PLATFORM }}
+          msbuild "Aetheris Studio/src/Aetheris.Studio/Aetheris.Studio.csproj" /t:Restore /p:Configuration=${{ env.CONFIGURATION }} /p:Platform=${{ env.PLATFORM }}
+
+      - name: Create self-contained MSIX package
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          cd ${{ github.workspace }}
+          msbuild "Aetheris Studio/src/Aetheris.Studio/Aetheris.Studio.csproj" `
+            /p:Configuration=${{ env.CONFIGURATION }} `
+            /p:Platform=${{ env.PLATFORM }} `
+            /p:RuntimeIdentifier=${{ env.RID }} `
+            /p:SelfContained=true `
+            /p:WindowsAppSDKSelfContained=true `
+            /p:UapAppxPackageBuildMode=SideloadOnly `
+            /p:AppxBundle=Never `
+            /p:AppxPackageSigningEnabled=false `
+            /p:AppxPackageDir="${{ github.workspace }}/artifacts/" `
+            /p:GenerateAppxPackageOnBuild=true
 
       - name: Upload build artifacts
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
