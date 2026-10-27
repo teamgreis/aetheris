@@ -38,7 +38,7 @@ public sealed partial class MainWindow : Window
 
     private async void SettingsButton_Click(object sender, RoutedEventArgs e)
     {
-        var dialogService = App.Services?.GetService<Core.IDialogService>();
+        var dialogService = App.Services?.GetService(typeof(Core.IDialogService)) as Core.IDialogService;
         if (dialogService is null) return;
 
         await dialogService.ShowErrorAsync(
