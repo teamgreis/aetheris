@@ -50,9 +50,6 @@
 
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
-    <uap:Capability Name="internetClient" />
-    <uap:Capability Name="picturesLibrary" />
-    <uap:Capability Name="documentsLibrary" />
   </Capabilities>
 
 </Package>
