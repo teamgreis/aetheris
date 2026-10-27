@@ -29,7 +29,9 @@ packages/
 
 # iOS/macOS
 *.xcworkspace/
-*.xcodeproj/
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
 DerivedData/
 *.pem
 *.mobileprovision

@@ -216,12 +216,12 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.aetheris.mobile;
 				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
 				INFOPLIST_FILE = "AetherisMobile/Info.plist";
 				CODE_SIGN_ENTITLEMENTS = "AetherisMobile/AetherisMobile.entitlements";
+			};
 			name = Debug;
 		};
 		B044 /* Release */ = {
@@ -280,12 +280,12 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.aetheris.mobile;
 				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
 				INFOPLIST_FILE = "AetherisMobile/Info.plist";
 				CODE_SIGN_ENTITLEMENTS = "AetherisMobile/AetherisMobile.entitlements";
+			};
 			name = Release;
 		};
 		B045 /* AetherisKeyboard */ = {
@@ -376,13 +376,13 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.aetheris.mobile.keyboard;
 				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
 				INFOPLIST_FILE = "AetherisKeyboard/Info.plist";
 				CODE_SIGN_ENTITLEMENTS = "AetherisKeyboard/AetherisKeyboard.entitlements";
 				SKIP_INSTALL = YES;
+			};
 			name = Debug;
 		};
 		B052 /* Release */ = {
@@ -441,13 +441,13 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.aetheris.mobile.keyboard;
 				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
 				INFOPLIST_FILE = "AetherisKeyboard/Info.plist";
 				CODE_SIGN_ENTITLEMENTS = "AetherisKeyboard/AetherisKeyboard.entitlements";
 				SKIP_INSTALL = YES;
+			};
 			name = Release;
 		};
 		B053 /* AetherisShared */ = {
@@ -536,13 +536,13 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.aetheris.shared;
 				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
 				GENERATE_INFOPLIST_FILE = YES;
 				DEFINES_MODULE = YES;
 				SKIP_INSTALL = YES;
+			};
 			name = Debug;
 		};
 		B059 /* Release */ = {
@@ -602,13 +602,13 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.aetheris.shared;
 				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
 				GENERATE_INFOPLIST_FILE = YES;
 				DEFINES_MODULE = YES;
 				SKIP_INSTALL = YES;
+			};
 			name = Release;
 		};
 /* End PBXNativeTarget section */
