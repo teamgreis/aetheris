@@ -16,7 +16,7 @@ on:
 env:
   XCODEPROJ: "Aetheris Mobile/AetherisMobile.xcodeproj"
   SCHEME: "AetherisMobile"
-  SIMULATOR: "platform=iOS Simulator,name=iPhone 16,OS=latest"
+  SIMULATOR: "generic/platform=iOS Simulator"
 
 jobs:
   build-ios:
