@@ -19,6 +19,11 @@
 		B019 /* AetherisMobile.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = B020 /* AetherisMobile.entitlements */; };
 		B021 /* AetherisKeyboard.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = B022 /* AetherisKeyboard.entitlements */; };
 		B023 /* AetherisShared.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = B024 /* AetherisShared.entitlements */; };
+		B067 /* AetherisProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B002 /* AetherisProfile.swift */; };
+		B068 /* AetherisShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B027 /* AetherisShared.framework */; };
+		B069 /* AetherisShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B027 /* AetherisShared.framework */; };
+		B070 /* AetherisShared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B027 /* AetherisShared.framework */; settings = {ATTRIBUTES = ("CodeSignOnCopy", "RemoveHeadersOnCopy", ); }; };
+		B071 /* AetherisShared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B027 /* AetherisShared.framework */; settings = {ATTRIBUTES = ("CodeSignOnCopy", "RemoveHeadersOnCopy", ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B068 /* AetherisShared.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -51,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B069 /* AetherisShared.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,14 +132,16 @@
 			buildConfigurationList = B037 /* Build configuration list for PBXNativeTarget "AetherisMobile" */;
 			buildPhases = (
 				B038 /* Sources */,
-				B039 /* Frameworks */,
+				B028 /* Frameworks */,
 				B040 /* Resources */,
 				B041 /* Embed App Extensions */,
+				B076 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				B042 /* PBXTargetDependency */,
+				B073 /* PBXTargetDependency */,
 			);
 			name = AetherisMobile;
 			productName = AetherisMobile;
@@ -208,6 +217,11 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.aetheris.mobile;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
+				INFOPLIST_FILE = "AetherisMobile/Info.plist";
+				CODE_SIGN_ENTITLEMENTS = "AetherisMobile/AetherisMobile.entitlements";
 			name = Debug;
 		};
 		B044 /* Release */ = {
@@ -267,6 +281,11 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.aetheris.mobile;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
+				INFOPLIST_FILE = "AetherisMobile/Info.plist";
+				CODE_SIGN_ENTITLEMENTS = "AetherisMobile/AetherisMobile.entitlements";
 			name = Release;
 		};
 		B045 /* AetherisKeyboard */ = {
@@ -274,13 +293,15 @@
 			buildConfigurationList = B046 /* Build configuration list for PBXNativeTarget "AetherisKeyboard" */;
 			buildPhases = (
 				B047 /* Sources */,
-				B048 /* Frameworks */,
+				B029 /* Frameworks */,
 				B049 /* Resources */,
+				B077 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				B050 /* PBXTargetDependency */,
+				B075 /* PBXTargetDependency */,
 			);
 			name = AetherisKeyboard;
 			productName = AetherisKeyboard;
@@ -356,6 +377,12 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.aetheris.mobile.keyboard;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
+				INFOPLIST_FILE = "AetherisKeyboard/Info.plist";
+				CODE_SIGN_ENTITLEMENTS = "AetherisKeyboard/AetherisKeyboard.entitlements";
+				SKIP_INSTALL = YES;
 			name = Debug;
 		};
 		B052 /* Release */ = {
@@ -415,6 +442,12 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.aetheris.mobile.keyboard;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
+				INFOPLIST_FILE = "AetherisKeyboard/Info.plist";
+				CODE_SIGN_ENTITLEMENTS = "AetherisKeyboard/AetherisKeyboard.entitlements";
+				SKIP_INSTALL = YES;
 			name = Release;
 		};
 		B053 /* AetherisShared */ = {
@@ -422,7 +455,7 @@
 			buildConfigurationList = B054 /* Build configuration list for PBXNativeTarget "AetherisShared" */;
 			buildPhases = (
 				B055 /* Sources */,
-				B056 /* Frameworks */,
+				B030 /* Frameworks */,
 				B057 /* Headers */,
 			);
 			buildRules = (
@@ -504,6 +537,12 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.aetheris.shared;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
+				GENERATE_INFOPLIST_FILE = YES;
+				DEFINES_MODULE = YES;
+				SKIP_INSTALL = YES;
 			name = Debug;
 		};
 		B059 /* Release */ = {
@@ -564,6 +603,12 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.aetheris.shared;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
+				GENERATE_INFOPLIST_FILE = YES;
+				DEFINES_MODULE = YES;
+				SKIP_INSTALL = YES;
 			name = Release;
 		};
 /* End PBXNativeTarget section */
@@ -616,7 +661,6 @@
 			files = (
 				B009 /* Assets.xcassets in Resources */,
 				B011 /* LaunchScreen.storyboard in Resources */,
-				B013 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,7 +668,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B017 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -638,7 +681,6 @@
 				B003 /* AetherisApp.swift in Sources */,
 				B005 /* ContentView.swift in Sources */,
 				B007 /* QRScannerView.swift in Sources */,
-				B001 /* AetherisProfile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -654,6 +696,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B067 /* AetherisProfile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -684,6 +727,30 @@
 			remoteGlobalIDString = B053;
 			remoteInfo = AetherisShared;
 		};
+		B073 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B053 /* AetherisShared */;
+			targetProxy = B072 /* PBXContainerItemProxy */;
+		};
+		B075 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B053 /* AetherisShared */;
+			targetProxy = B074 /* PBXContainerItemProxy */;
+		};
+		B072 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B060 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B053;
+			remoteInfo = AetherisShared;
+		};
+		B074 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B060 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B053;
+			remoteInfo = AetherisShared;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -708,6 +775,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		B064 /* PBXBuildFile */ = {isa = PBXBuildFile; fileRef = B026 /* AetherisKeyboard.appex */; settings = {ATTRIBUTES = ("CodeSignOnCopy", "RemoveHeadersOnCopy", ); }; };
+		B076 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B070 /* AetherisShared.framework in Embed Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B077 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B071 /* AetherisShared.framework in Embed Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin XCConfigurationList section */
