@@ -46,7 +46,7 @@ jobs:
             -scheme "${{ env.SCHEME }}" \
             -destination "${{ env.SIMULATOR }}" \
             -configuration Release \
-            CODE_SIGNING_ALLOWED=NO | xcpretty
+            CODE_SIGNING_ALLOWED=NO 2>&1 | tee xcodebuild.log | xcpretty
 
       - name: Run tests
         run: |
