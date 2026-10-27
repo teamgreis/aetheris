@@ -613,7 +613,7 @@ public actor ProfileIO {
                 integrity: transfer.integrity,
                 signature: SignatureInfo(
                     publicKey: privateKey.publicKey.rawRepresentation.base64EncodedString(),
-                    signature: signature.rawRepresentation.base64EncodedString()
+                    signature: signature.base64EncodedString()
                 ),
                 encrypted: transfer.encrypted,
                 payload: transfer.payload
@@ -669,7 +669,11 @@ public actor ProfileIO {
             let tag = combined[(combined.count - 16)...]
             let ciphertext = combined[12..<(combined.count - 16)]
 
-            let sealedBox = try AES.GCM.SealedBox(nonce: nonce, ciphertext: ciphertext, tag: tag)
+            let sealedBox = try AES.GCM.SealedBox(
+                nonce: try AES.GCM.Nonce(data: nonce),
+                ciphertext: ciphertext,
+                tag: try AES.GCM.Tag(data: tag)
+            )
             let plaintext = try AES.GCM.open(sealedBox, using: key)
 
             let decryptedProfile = try decoder.decode(AetherisProfile.self, from: plaintext)
