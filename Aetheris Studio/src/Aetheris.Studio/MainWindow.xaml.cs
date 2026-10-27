@@ -36,7 +36,18 @@ public sealed partial class MainWindow : Window
             Math.Max(size.Height, MinWindowHeight)));
     }
 
-    private void SettingsButton_Click(object sender, RoutedEventArgs e) { }
+    private async void SettingsButton_Click(object sender, RoutedEventArgs e)
+    {
+        var dialogService = App.Services?.GetService<Core.IDialogService>();
+        if (dialogService is null) return;
+
+        await dialogService.ShowErrorAsync(
+            "Aetheris Studio",
+            "Version 1.0.0\n\n" +
+            "Profile werden verschlüsselt (AES-256-GCM, DPAPI) abgelegt unter:\n" +
+            "%LOCALAPPDATA%\\Aetheris\\Profiles\n\n" +
+            "QR-Transfer: Aetheris Mobile öffnen und Chunked QR scannen.");
+    }
 
     private OverlappedPresenter? Presenter => AppWindow?.Presenter as OverlappedPresenter;
 
