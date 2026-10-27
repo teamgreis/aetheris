@@ -53,11 +53,22 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: Check NuGet key
+        id: nugetkey
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          if [ -n "$NUGET_API_KEY" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Pack NuGet package
         run: dotnet pack Shared/Aetheris.Schema/Aetheris.Schema.csproj -c Release -o ./nupkg
 
       - name: Publish to NuGet
-        if: ${{ secrets.NUGET_API_KEY != '' }}
+        if: steps.nugetkey.outputs.enabled == 'true'
         run: dotnet nuget push ./nupkg/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
 
   publish-swift-package:

@@ -52,8 +52,19 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             | xcpretty
 
+      - name: Check signing configuration
+        id: signing
+        env:
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          if [ -n "$APPLE_TEAM_ID" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Build for device (archive)
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && secrets.APPLE_TEAM_ID != ''
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.signing.outputs.enabled == 'true'
         run: |
           xcodebuild archive \
             -project AetherisMobile.xcodeproj \
@@ -64,7 +75,7 @@ jobs:
             CODE_SIGN_STYLE=Automatic
 
       - name: Export IPA
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && secrets.APPLE_TEAM_ID != ''
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.signing.outputs.enabled == 'true'
         run: |
           cat > ExportOptions.plist <<'PLIST'
           <?xml version="1.0" encoding="UTF-8"?>
@@ -84,7 +95,7 @@ jobs:
             -exportOptionsPlist ExportOptions.plist
 
       - name: Upload IPA
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && secrets.APPLE_TEAM_ID != ''
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.signing.outputs.enabled == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: aetheris-mobile-ipa
