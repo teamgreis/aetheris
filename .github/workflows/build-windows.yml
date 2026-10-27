@@ -16,7 +16,6 @@ on:
       - 'Aetheris Studio/**'
       - 'Shared/Aetheris.Schema/**'
       - 'Aetheris.sln'
-  workflow_dispatch:
 
 env:
   SOLUTION_FILE: Aetheris.sln
