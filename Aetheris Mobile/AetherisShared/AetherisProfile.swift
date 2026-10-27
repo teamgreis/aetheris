@@ -665,15 +665,7 @@ public actor ProfileIO {
                 throw ValidationError.decryptionFailed
             }
 
-            let nonce = combined[0..<12]
-            let tag = combined[(combined.count - 16)...]
-            let ciphertext = combined[12..<(combined.count - 16)]
-
-            let sealedBox = try AES.GCM.SealedBox(
-                nonce: try AES.GCM.Nonce(data: nonce),
-                ciphertext: ciphertext,
-                tag: try AES.GCM.Tag(data: tag)
-            )
+            let sealedBox = try AES.GCM.SealedBox(combined: combined)
             let plaintext = try AES.GCM.open(sealedBox, using: key)
 
             let decryptedProfile = try decoder.decode(AetherisProfile.self, from: plaintext)
