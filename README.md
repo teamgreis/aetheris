@@ -168,8 +168,8 @@ Details in [CONTRIBUTING.md](CONTRIBUTING.md) (TODO).
 - [x] Shared JSON Schema v1.0.0
 - [x] Aetheris Studio Core (Models, Validation, Crypto, QR)
 - [x] Aetheris Studio WinUI 3 UI (Profile, Measurements, Findings, Settings, QR)
-- [ ] Aetheris Studio: Chunked QR Export UI
-- [ ] Aetheris Studio: Passwort-Setup Dialog
+- [x] Aetheris Studio: Chunked QR Export UI
+- [x] Aetheris Studio: Passwort-Setup Dialog
 - [ ] Aetheris Mobile: Xcode Project + SwiftUI App
 - [ ] Aetheris Mobile: QR Scanner (single + chunked)
 - [ ] Aetheris Mobile: Profil-Import & Validierung
@@ -178,7 +178,7 @@ Details in [CONTRIBUTING.md](CONTRIBUTING.md) (TODO).
 - [ ] Aetheris Keyboard: Stabilisierung + Tap-Assist
 - [ ] Aetheris Keyboard: App Groups Integration
 - [ ] GitHub Actions CI/CD (Windows MSIX, iOS IPA, NuGet, SwiftPM)
-- [ ] Documentation & User Guide
+- [x] Documentation & User Guide
 - [ ] TestFlight / Microsoft Store Release
 
 ---
